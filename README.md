@@ -86,7 +86,7 @@ if ( System.String.IsNullOrEmpty( inputPathName ) ) {
 
 System.Action<System.String?, System.Collections.Generic.IEnumerable<System.String>> writer;
 if ( System.String.IsNullOrEmpty( outputPathName ) ) {
-	// no file specified, write from StdOut instead
+	// no file specified, write to StdOut instead
 	writer = ( x, y ) => WriteFileLine( System.Console.Out, y );
 } else {
 	// write to specified file
