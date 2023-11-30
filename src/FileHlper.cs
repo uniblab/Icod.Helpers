@@ -18,6 +18,8 @@
     USA
 */
 
+using System.Reflection.PortableExecutable;
+
 namespace Icod.Helpers {
 
 	[System.Xml.Serialization.XmlType( IncludeInSchema = false )]
@@ -169,12 +171,7 @@ namespace Icod.Helpers {
 				}
 			} while ( true );
 		}
-		#endregion record sep
-		#endregion read line
-		#endregion line file
 
-		#region record file
-		#region quote
 		public static System.Collections.Generic.IEnumerable<System.String> ReadLine(
 			this System.String filePathName, System.String recordSeparator, System.Char quoteChar
 		) {
@@ -246,8 +243,11 @@ namespace Icod.Helpers {
 				p = file.Read();
 			}
 		}
-		#endregion quote
+		#endregion record sep
+		#endregion read line
+		#endregion line file
 
+		#region record file
 		#region field sep
 		public static System.Collections.Generic.IEnumerable<System.Collections.Generic.IEnumerable<System.String>> ReadRecord(
 			this System.String filePathName, System.String recordSeparator, System.Char quoteChar, System.Char fieldSeparator
@@ -276,26 +276,9 @@ namespace Icod.Helpers {
 				x => null != x
 			) ) {
 				using ( var reader = new System.IO.StringReader( line ) ) {
-					output = new System.Collections.Generic.List<System.String>();
-					System.Int32 i;
-					System.Char c;
-					System.String? column;
-					var qc = quoteChar;
-					do {
-						i = reader.Peek();
-						if ( EOL == i ) {
-							break;
-						}
-						c = System.Convert.ToChar( i );
-						if ( qc.Equals( c ) ) {
-							_ = reader.Read();
-							column = ReadColumn( reader, quoteChar, true );
-							output.Add( column );
-						} else {
-							column = ReadColumn( reader, fieldSeparator, false );
-							output.Add( column );
-						}
-					} while ( true );
+					output = new System.Collections.Generic.List<System.String>(
+						reader.ReadColumn( quoteChar, fieldSeparator )
+					);
 					yield return output.AsReadOnly();
 				}
 			}
@@ -304,8 +287,37 @@ namespace Icod.Helpers {
 		#endregion record file
 
 		#region column
+		public static System.Collections.Generic.IEnumerable<System.String> ReadColumn(
+			this System.String line, System.Char quoteChar, System.Char fieldSeparator
+		) {
+			using ( var reader = new System.IO.StringReader( line ) ) {
+				return reader.ReadColumn( quoteChar, fieldSeparator );
+			}
+		}
+		public static System.Collections.Generic.IEnumerable<System.String> ReadColumn(
+			this System.IO.TextReader reader, System.Char quoteChar, System.Char fieldSeparator
+		) {
+			System.Int32 i;
+			System.Char c;
+			System.String column;
+			do {
+				i = reader.Peek();
+				if ( EOL == i ) {
+					break;
+				}
+				c = System.Convert.ToChar( i );
+				if ( quoteChar.Equals( c ) ) {
+					_ = reader.Read();
+					column = ReadColumn( reader, quoteChar, true );
+					yield return column;
+				} else {
+					column = ReadColumn( reader, fieldSeparator, false );
+					yield return column;
+				}
+			} while ( true );
+		}
 		public static System.String ReadColumn(
-			this System.IO.StringReader reader, System.Char @break, System.Boolean readNextOnBreak
+			this System.IO.TextReader reader, System.Char @break, System.Boolean readNextOnBreak
 		) {
 			var sb = new System.Text.StringBuilder( 128 );
 			System.Nullable<System.Char> ch;
@@ -320,7 +332,7 @@ namespace Icod.Helpers {
 			return sb.ToString();
 		}
 		public static System.Nullable<System.Char> ReadChar(
-			this System.IO.StringReader reader, System.Char @break, System.Boolean readNextOnBreak
+			this System.IO.TextReader reader, System.Char @break, System.Boolean readNextOnBreak
 		) {
 			var p = reader.Peek();
 			if ( EOL == p ) {
