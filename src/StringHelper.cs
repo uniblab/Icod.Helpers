@@ -66,6 +66,7 @@ namespace Icod.Helpers {
 		public static System.String GetString( this System.Byte[] response, System.Text.Encoding encoding ) {
 			return encoding.GetString( response );
 		}
+
 		public static System.String Decompress(
 			this System.Byte[] response,
 			System.Text.Encoding encoding,

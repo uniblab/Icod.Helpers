@@ -50,12 +50,14 @@ The `ReadLine` extension methods optimize operations of
 treating the file like a source of strings, i.e. an 
 `IEnumerable<String>`.
 
+One can specify a line-ending via the `recordSeparator` parameter.
+
 Examples:
 ``` csharp
 System.Func<System.String?, System.Collections.Generic.IEnumerable<System.String>> reader;
 if ( System.String.IsNullOrEmpty( inputPathName ) ) {
 	// no file specified, read from StdIn instead
-	reader = ( x ) => System.Console.In.ReadLine();
+	reader = ( x ) => System.Console.In.ReadLine( System.Environment.NewLine );
 } else {
 	// read from specified file
 	reader = ( x ) => x!.ReadLine();
@@ -70,15 +72,16 @@ The `WriteLine` extension methods come in two varieties.
 One variety which relies on the host system's idea of a 
 line-ending, and one which permits the caller to specify a 
 particular line-ending.  This is extremely useful when writing 
-traditional macintosh files from windows hosts.  Either 
-variety is optized for accepting a list of lines to write.
+files between different hosts, such as from Windows to 
+traditional Macintosh.  Either variety is optized for 
+accepting a list of lines to write.
 
 Example:
 ``` csharp
 System.Func<System.String?, System.Collections.Generic.IEnumerable<System.String>> reader;
 if ( System.String.IsNullOrEmpty( inputPathName ) ) {
 	// no file specified, read from StdIn instead
-	reader = ( x ) => System.Console.In.ReadLine();
+	reader = ( x ) => System.Console.In.ReadLine( System.Environment.NewLine );
 } else {
 	// read from specified file
 	reader = ( x ) => x!.ReadLine();
@@ -99,10 +102,96 @@ writer( outputPathName, reader( inputPathName ).Select(
 ```
 
 #### Record-based
-Many data file formats are supported by structuring a text file such that it can be interpretted as containing records, with each record containing columns.  The ubiquitous Comma-Separated-Value, CSV, format is the prime example.  These extension methods permit one to work with a file as source of records, which in turn are a source of columnar values.
+Many data file formats are supported by structuring a text file 
+such that it can be interpretted as containing records, with 
+each record containing columns.  The ubiquitous 
+Comma-Separated-Value, CSV, format is the prime example.  These 
+extension methods permit one to work with a file as source of 
+records, which in turn are a source of columnar values.
 
+The several `ReadRecord` overrides support the specification of 
+a record separator, enquoting character, and field separator.
+
+Record-based logic returns an `IEnumerable<IEnumerable<String>>`,
+since each record contains one or more columns.
+
+Example:
+``` csharp
+foreach ( var record in fileName.ReadRecord(
+	"\n\r", '\"', ','
+) ) {
+	foreach ( var column in record ) {
+		System.Console.Out.Write( column + "\t" );
+	}
+	System.Console.Out.Write( "\r\n" );
+}
+```
+
+Lastly there is an extension method to parse a line of text 
+into individual columns.
+
+Example:
+``` csharp
+foreach ( var record in fileName.ReadLine( "\r\n" ) ) {
+	foreach ( var column in record.ReadColumn( '\"', ',' ) ) {
+		System.Console.Out.Write( column + "\t" );
+	}
+	System.Console.Out.Write( "\r\n" );
+}
+```
 
 ### StringHelper
+This module several contains `System.String` extension methods.
+
+#### TrimToNull
+There is an extension method which trims all whitespace from 
+the beginning and end of a `System.String`, and if the result 
+is empty will return `null`.
+
+Example:
+``` csharp
+var ipn = inputPathName.TrimToNull();
+System.Func<System.String?, System.Collections.Generic.IEnumerable<System.String>> reader;
+if ( ipn is null ) {
+	// no file specified, read from StdIn instead
+	reader = ( x ) => System.Console.In.ReadLine( System.Environment.NewLine );
+} else {
+	// read from specified file
+	reader = ( x ) => x!.ReadLine();
+}
+```
+
+#### Compression
+There are methods to `Deflate` and `Gzip` a string, returning a `Byte[]` 
+representation.  There are corresponding `Inflate` and `Gunzip` methods  
+associated with the `Byte[]`.  There is also an extension method to 
+properly decode a byte array by code page, `GetString`.
+
+Example:
+``` csharp
+var input = "Mary had a little lamb";
+var codePage = CodePageHelper.GetCodePage( "1252" );
+var compressedd = input.Gzip( codePage );
+var output = compressedd.Gunzip( codePage );
+```
+
+#### Web helper
+There is also an extension method for working with web-based retrieval.  
+Quite often the content of a web response will be compressed.  Based on 
+the "Content-Encoding" header vale, the `Byte[]`, the content, will be
+decoded as a `String`, or decompressed first and then returned.
+
+If the contentEncoding" parameter value is null, the function assumes 
+"identity" encoding.
+
+Example:
+``` csharp
+var json = webResponse.Body.GetWebString(
+	webResponse.Encoding,
+	webResponse.ResponseHeaders[ "Content-Encoding" ]
+);
+```
+
 
 ## Copyright and Licensing
 Icod.Helpers is a helper utility containing extension methods 

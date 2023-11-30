@@ -18,8 +18,6 @@
     USA
 */
 
-using System.Reflection.PortableExecutable;
-
 namespace Icod.Helpers {
 
 	[System.Xml.Serialization.XmlType( IncludeInSchema = false )]
@@ -99,7 +97,6 @@ namespace Icod.Helpers {
 		#endregion write line
 
 		#region read line
-		#region system newline
 		public static System.Collections.Generic.IEnumerable<System.String> ReadLine( this System.String filePathName ) {
 			using ( var file = System.IO.File.Open( filePathName, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read ) ) {
 				return ReadLine( file );
@@ -120,9 +117,7 @@ namespace Icod.Helpers {
 				line = fileReader.ReadLine();
 			}
 		}
-		#endregion system newline
 
-		#region record sep
 		public static System.Collections.Generic.IEnumerable<System.String> ReadLine(
 			this System.String filePathName, System.String recordSeparator
 		) {
@@ -243,12 +238,10 @@ namespace Icod.Helpers {
 				p = file.Read();
 			}
 		}
-		#endregion record sep
 		#endregion read line
 		#endregion line file
 
 		#region record file
-		#region field sep
 		public static System.Collections.Generic.IEnumerable<System.Collections.Generic.IEnumerable<System.String>> ReadRecord(
 			this System.String filePathName, System.String recordSeparator, System.Char quoteChar, System.Char fieldSeparator
 		) {
@@ -283,7 +276,6 @@ namespace Icod.Helpers {
 				}
 			}
 		}
-		#endregion field sep
 		#endregion record file
 
 		#region column
@@ -308,15 +300,15 @@ namespace Icod.Helpers {
 				c = System.Convert.ToChar( i );
 				if ( quoteChar.Equals( c ) ) {
 					_ = reader.Read();
-					column = ReadColumn( reader, quoteChar, true );
+					column = reader.ReadColumn( quoteChar, true );
 					yield return column;
 				} else {
-					column = ReadColumn( reader, fieldSeparator, false );
+					column = reader.ReadColumn( fieldSeparator, false );
 					yield return column;
 				}
 			} while ( true );
 		}
-		public static System.String ReadColumn(
+		private static System.String ReadColumn(
 			this System.IO.TextReader reader, System.Char @break, System.Boolean readNextOnBreak
 		) {
 			var sb = new System.Text.StringBuilder( 128 );
@@ -331,7 +323,7 @@ namespace Icod.Helpers {
 			} while ( true );
 			return sb.ToString();
 		}
-		public static System.Nullable<System.Char> ReadChar(
+		private static System.Nullable<System.Char> ReadChar(
 			this System.IO.TextReader reader, System.Char @break, System.Boolean readNextOnBreak
 		) {
 			var p = reader.Peek();
