@@ -81,16 +81,16 @@ if ( System.String.IsNullOrEmpty( inputPathName ) ) {
 	reader = ( x ) => System.Console.In.ReadFileLine();
 } else {
 	// read from specified file
-	reader = ( x ) => x.ReadFileLine();
+	reader = ( x ) => x!.ReadFileLine();
 }
 
 System.Action<System.String?, System.Collections.Generic.IEnumerable<System.String>> writer;
 if ( System.String.IsNullOrEmpty( outputPathName ) ) {
 	// no file specified, write to StdOut instead
-	writer = ( x, y ) => WriteFileLine( System.Console.Out, y );
+	writer = ( x, y ) => System.Console.Out.WriteFileLine( y );
 } else {
 	// write to specified file
-	writer = ( x, y ) => WriteFileLine( x!, y );
+	writer = ( x, y ) => x!.WriteFileLine( y );
 }
 
 writer( outputPathName, reader( inputPathName ).Select(
