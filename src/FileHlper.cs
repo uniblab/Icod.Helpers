@@ -249,21 +249,21 @@ namespace Icod.Helpers {
 		#endregion quote
 
 		#region field sep
-		public static System.Collections.Generic.IEnumerable<System.String> ReadLine(
+		public static System.Collections.Generic.IEnumerable<System.Collections.Generic.IEnumerable<System.String>> ReadRecord(
 			this System.String filePathName, System.String recordSeparator, System.Char quoteChar, System.Char fieldSeparator
 		) {
 			using ( var file = System.IO.File.Open( filePathName, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read ) ) {
-				return ReadLine( file, recordSeparator, quoteChar, fieldSeparator );
+				return ReadRecord( file, recordSeparator, quoteChar, fieldSeparator );
 			}
 		}
-		public static System.Collections.Generic.IEnumerable<System.String> ReadLine(
+		public static System.Collections.Generic.IEnumerable<System.Collections.Generic.IEnumerable<System.String>> ReadRecord(
 			this System.IO.Stream stream, System.String recordSeparator, System.Char quoteChar, System.Char fieldSeparator
 		) {
 			using ( var reader = new System.IO.StreamReader( stream, System.Text.Encoding.UTF8, true, theBufferSize, true ) ) {
-				return ReadLine( reader, recordSeparator, quoteChar, fieldSeparator );
+				return ReadRecord( reader, recordSeparator, quoteChar, fieldSeparator );
 			}
 		}
-		public static System.Collections.Generic.IEnumerable<System.String> ReadLine(
+		public static System.Collections.Generic.IEnumerable<System.Collections.Generic.IEnumerable<System.String>> ReadRecord(
 			this System.IO.TextReader file, System.String recordSeparator, System.Char quoteChar, System.Char fieldSeparator
 		) {
 			var rs = recordSeparator.TrimToNull();
@@ -271,10 +271,12 @@ namespace Icod.Helpers {
 				throw new System.ArgumentNullException( nameof( recordSeparator ) );
 			}
 
+			System.Collections.Generic.IList<System.String> output;
 			foreach ( var line in file.ReadLine( recordSeparator, quoteChar ).Where(
 				x => null != x
 			) ) {
 				using ( var reader = new System.IO.StringReader( line ) ) {
+					output = new System.Collections.Generic.List<System.String>();
 					System.Int32 i;
 					System.Char c;
 					System.String? column;
@@ -288,12 +290,13 @@ namespace Icod.Helpers {
 						if ( qc.Equals( c ) ) {
 							_ = reader.Read();
 							column = ReadColumn( reader, quoteChar, true );
-							yield return column;
+							output.Add( column );
 						} else {
 							column = ReadColumn( reader, fieldSeparator, false );
-							yield return column;
+							output.Add( column );
 						}
 					} while ( true );
+					yield return output.AsReadOnly();
 				}
 			}
 		}
