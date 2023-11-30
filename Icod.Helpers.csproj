@@ -24,6 +24,28 @@
 		<TargetFramework>net7.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Title>Icod.Helpers</Title>
+		<Authors>uniblab</Authors>
+		<Description>$(AssemblyName) is a command-line arguments handler and processor.</Description>
+		<Copyright>Copyright (c) 2023 Timothy J. Bruce</Copyright>
+		<PackageProjectUrl>https://github.com/uniblab/Icod.Helpers</PackageProjectUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/uniblab/Icod.Helpers</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>util;file;string;code-page</PackageTags>
+		<PackageLicenseFile>Icod.Helpers.License.txt</PackageLicenseFile>
+		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+		<IncludeSymbols>True</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<FileVersion>1.0.0.0</FileVersion>
+		<AssemblyVersion>1.0.0.0</AssemblyVersion>
+		<PackageVersion>1.0.0</PackageVersion>
+		<PackageReleaseNotes>
+			Icod.Helpers is a helper utility containing extension methods
+			encapsulating commonly used String, CodePage, and File operations
+			into convenient functions.
+		</PackageReleaseNotes>
 	</PropertyGroup>
 
 </Project>
