@@ -39,14 +39,14 @@ var extendedPath = Icod.Helpers.FileHelper.BuildPath( @"C:\foo\bar\", @'\', @"\b
 assert( extendedPath, "C:\\foo\\bar\\baz" );
 ```
 
-The extension methods bind to System.String, System.IO.Stream, 
-System.IO.StreamReader, System.IO.StringReader, 
-System.IO.TextReader, and System.IO.TextWriter instances.  
+The extension methods bind to `System.String`, `System.IO.Stream`, 
+`System.IO.StreamReader`, `System.IO.StringReader`, 
+`System.IO.TextReader`, and `System.IO.TextWriter` instances.  
 These come in modes for treating files in either line-based 
 mode or record-based mode.
 
 #### Line-based
-The `ReadFileLine` extension methods optimize operations of 
+The `ReadLine` extension methods optimize operations of 
 treating the file like a source of strings, i.e. an 
 `IEnumerable<String>`.
 
@@ -55,10 +55,10 @@ Examples:
 System.Func<System.String?, System.Collections.Generic.IEnumerable<System.String>> reader;
 if ( System.String.IsNullOrEmpty( inputPathName ) ) {
 	// no file specified, read from StdIn instead
-	reader = ( x ) => System.Console.In.ReadFileLine();
+	reader = ( x ) => System.Console.In.ReadLine();
 } else {
 	// read from specified file
-	reader = ( x ) => x.ReadFileLine();
+	reader = ( x ) => x!.ReadLine();
 }
 
 foreach ( var line in reader( inputPathName ) ) {
@@ -66,7 +66,7 @@ foreach ( var line in reader( inputPathName ) ) {
 }
 ```
 
-The `WriteFileLine` extension methods come in two varieties.  
+The `WriteLine` extension methods come in two varieties.  
 One variety which relies on the host system's idea of a 
 line-ending, and one which permits the caller to specify a 
 particular line-ending.  This is extremely useful when writing 
@@ -78,19 +78,19 @@ Example:
 System.Func<System.String?, System.Collections.Generic.IEnumerable<System.String>> reader;
 if ( System.String.IsNullOrEmpty( inputPathName ) ) {
 	// no file specified, read from StdIn instead
-	reader = ( x ) => System.Console.In.ReadFileLine();
+	reader = ( x ) => System.Console.In.ReadLine();
 } else {
 	// read from specified file
-	reader = ( x ) => x!.ReadFileLine();
+	reader = ( x ) => x!.ReadLine();
 }
 
 System.Action<System.String?, System.Collections.Generic.IEnumerable<System.String>> writer;
 if ( System.String.IsNullOrEmpty( outputPathName ) ) {
 	// no file specified, write to StdOut instead
-	writer = ( x, y ) => System.Console.Out.WriteFileLine( y );
+	writer = ( x, y ) => System.Console.Out.WriteLine( y );
 } else {
 	// write to specified file
-	writer = ( x, y ) => x!.WriteFileLine( y );
+	writer = ( x, y ) => x!.WriteLine( y );
 }
 
 writer( outputPathName, reader( inputPathName ).Select(
@@ -99,6 +99,8 @@ writer( outputPathName, reader( inputPathName ).Select(
 ```
 
 #### Record-based
+Many data file formats are supported by structuring a text file such that it can be interpretted as containing records, with each record containing columns.  The ubiquitous Comma-Separated-Value, CSV, format is the prime example.  These extension methods permit one to work with a file as source of records, which in turn are a source of columnar values.
+
 
 ### StringHelper
 
