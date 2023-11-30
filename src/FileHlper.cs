@@ -51,41 +51,41 @@ namespace Icod.Helpers {
 			return p + sep + name;
 		}
 
-		#region file line
-		public static void WriteFileLine( this System.String filePathName, System.Collections.Generic.IEnumerable<System.String> data ) {
+		#region line file
+		public static void WriteLine( this System.String filePathName, System.Collections.Generic.IEnumerable<System.String> data ) {
 			using ( var file = System.IO.File.Open( filePathName, System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write, System.IO.FileShare.None ) ) {
-				WriteFileLine( file, data );
+				WriteLine( file, data );
 			}
 		}
-		public static void WriteFileLine( this System.IO.Stream stream, System.Collections.Generic.IEnumerable<System.String> data ) {
+		public static void WriteLine( this System.IO.Stream stream, System.Collections.Generic.IEnumerable<System.String> data ) {
 			_ = stream.Seek( 0, System.IO.SeekOrigin.Begin );
 			using ( var writer = new System.IO.StreamWriter( stream, System.Text.Encoding.UTF8, theBufferSize, true ) ) {
-				WriteFileLine( writer, data );
+				WriteLine( writer, data );
 			}
 			stream.Flush();
 			stream.SetLength( stream.Position );
 		}
-		public static void WriteFileLine( this System.IO.TextWriter writer, System.Collections.Generic.IEnumerable<System.String> data ) {
+		public static void WriteLine( this System.IO.TextWriter writer, System.Collections.Generic.IEnumerable<System.String> data ) {
 			foreach ( var datum in data ) {
 				writer.WriteLine( datum );
 			}
 			writer.Flush();
 		}
 
-		public static void WriteFileLine( this System.String filePathName, System.String lineEnding, System.Collections.Generic.IEnumerable<System.String> data ) {
+		public static void WriteLine( this System.String filePathName, System.String lineEnding, System.Collections.Generic.IEnumerable<System.String> data ) {
 			using ( var file = System.IO.File.Open( filePathName, System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write, System.IO.FileShare.None ) ) {
-				WriteFileLine( file, lineEnding, data );
+				WriteLine( file, lineEnding, data );
 			}
 		}
-		public static void WriteFileLine( this System.IO.Stream stream, System.String lineEnding, System.Collections.Generic.IEnumerable<System.String> data ) {
+		public static void WriteLine( this System.IO.Stream stream, System.String lineEnding, System.Collections.Generic.IEnumerable<System.String> data ) {
 			_ = stream.Seek( 0, System.IO.SeekOrigin.Begin );
 			using ( var writer = new System.IO.StreamWriter( stream, System.Text.Encoding.UTF8, theBufferSize, true ) ) {
-				WriteFileLine( writer, lineEnding, data );
+				WriteLine( writer, lineEnding, data );
 			}
 			stream.Flush();
 			stream.SetLength( stream.Position );
 		}
-		public static void WriteFileLine( this System.IO.TextWriter writer, System.String lineEnding, System.Collections.Generic.IEnumerable<System.String> data ) {
+		public static void WriteLine( this System.IO.TextWriter writer, System.String lineEnding, System.Collections.Generic.IEnumerable<System.String> data ) {
 			var le = lineEnding.TrimToNull();
 			foreach ( var datum in data ) {
 				writer.Write( datum );
@@ -95,17 +95,17 @@ namespace Icod.Helpers {
 		}
 
 
-		public static System.Collections.Generic.IEnumerable<System.String> ReadFileLine( this System.String filePathName ) {
+		public static System.Collections.Generic.IEnumerable<System.String> ReadLine( this System.String filePathName ) {
 			using ( var file = System.IO.File.Open( filePathName, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read ) ) {
-				return ReadFileLine( file );
+				return ReadLine( file );
 			}
 		}
-		public static System.Collections.Generic.IEnumerable<System.String> ReadFileLine( this System.IO.Stream stream ) {
+		public static System.Collections.Generic.IEnumerable<System.String> ReadLine( this System.IO.Stream stream ) {
 			using ( var reader = new System.IO.StreamReader( stream, System.Text.Encoding.UTF8, true, theBufferSize, true ) ) {
-				return ReadFileLine( reader );
+				return ReadLine( reader );
 			}
 		}
-		public static System.Collections.Generic.IEnumerable<System.String> ReadFileLine( this System.IO.TextReader fileReader ) {
+		public static System.Collections.Generic.IEnumerable<System.String> ReadLine( this System.IO.TextReader fileReader ) {
 			var line = fileReader.ReadLine();
 			while ( null != line ) {
 				line = line.TrimToNull();
@@ -115,7 +115,7 @@ namespace Icod.Helpers {
 				line = fileReader.ReadLine();
 			}
 		}
-		#endregion file line
+		#endregion line file
 
 		#region record file
 		public static System.String? ReadLine( 
