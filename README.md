@@ -178,7 +178,7 @@ var output = compressedd.Gunzip( codePage );
 #### Web helper
 There is also an extension method for working with web-based retrieval.  
 Quite often the content of a web response will be compressed.  Based on 
-the "Content-Encoding" header vale, the `Byte[]`, the content, will be
+the "Content-Encoding" header value, the `Byte[]`, the content, will be
 decoded as a `String`, or decompressed first and then returned.
 
 If the contentEncoding" parameter value is null, the function assumes 
