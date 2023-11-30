@@ -52,6 +52,7 @@ namespace Icod.Helpers {
 		}
 
 		#region line file
+		#region write line
 		public static void WriteLine( this System.String filePathName, System.Collections.Generic.IEnumerable<System.String> data ) {
 			using ( var file = System.IO.File.Open( filePathName, System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write, System.IO.FileShare.None ) ) {
 				WriteLine( file, data );
@@ -93,8 +94,10 @@ namespace Icod.Helpers {
 			}
 			writer.Flush();
 		}
+		#endregion write line
 
-
+		#region read line
+		#region system newline
 		public static System.Collections.Generic.IEnumerable<System.String> ReadLine( this System.String filePathName ) {
 			using ( var file = System.IO.File.Open( filePathName, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read ) ) {
 				return ReadLine( file );
@@ -115,105 +118,82 @@ namespace Icod.Helpers {
 				line = fileReader.ReadLine();
 			}
 		}
-		#endregion line file
+		#endregion system newline
 
-		#region record file
-		public static System.String? ReadLine( 
-			this System.IO.TextReader file, System.String recordSeparator, System.Char quoteChar
+		#region record sep
+		public static System.Collections.Generic.IEnumerable<System.String> ReadLine(
+			this System.String filePathName, System.String recordSeparator
 		) {
-			if ( EOF == file.Peek() ) {
-				return null;
+			using ( var file = System.IO.File.Open( filePathName, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read ) ) {
+				return ReadLine( file, recordSeparator );
 			}
-			var rs = recordSeparator.TrimToNull();
-			if ( System.String.IsNullOrEmpty( rs ) ) {
-				throw new System.ArgumentNullException( nameof( recordSeparator ) );
-			} else if ( ( 1 == rs.Length ) && rs.Equals( quoteChar.ToString() ) ) {
-				throw new System.InvalidOperationException( "Quote character and record separator cannot be the same." );
-			}
-
-			var output = new System.Text.StringBuilder();
-			var leLen = rs.Length;
-			var lenStop = leLen - 1;
-			System.Int32 i = 0;
-			System.Char c;
-			System.Boolean isPlaintext = true;
-			System.Int32 p = file.Read();
-			while ( EOL != p ) {
-				c = System.Convert.ToChar( p );
-				output = output.Append( c );
-				if ( isPlaintext ) {
-					if ( quoteChar.Equals( c ) ) {
-						isPlaintext = false;
-					} else if ( 
-						( leLen <= output.Length ) 
-						&& ( rs[ i ].Equals( output[ ( output.Length - leLen ) - i ] ) )
-					) {
-						if ( lenStop <= ++i ) {
-							_ = output.Remove( output.Length - leLen, leLen );
-							break;
-						}
-					} else {
-						i = 0;
-					}
-				} else {
-					if ( quoteChar.Equals( c ) ) {
-						p = file.Peek();
-						if ( EOL == p ) {
-							throw new System.IO.EndOfStreamException();
-						}
-						c = System.Convert.ToChar( p );
-						if ( quoteChar.Equals( c ) ) {
-							_ = file.Read();
-							output = output.Append( c );
-						} else {
-							i = 0;
-							isPlaintext = true;
-						}
-					}
-				}
-				p = file.Read();
-			}
-
-			return output.ToString();
 		}
-		public static System.String? ReadLine( this System.IO.TextReader file, System.String recordSeparator ) {
-			if ( EOF == file.Peek() ) {
-				return null;
+		public static System.Collections.Generic.IEnumerable<System.String> ReadLine(
+			this System.IO.Stream stream, System.String recordSeparator
+		) {
+			using ( var reader = new System.IO.StreamReader( stream, System.Text.Encoding.UTF8, true, theBufferSize, true ) ) {
+				return ReadLine( reader, recordSeparator );
+			}
+		}
+		public static System.Collections.Generic.IEnumerable<System.String> ReadLine(
+			this System.IO.TextReader fileReader, System.String recordSeparator
+		) {
+			if ( EOF == fileReader.Peek() ) {
+				yield break;
 			}
 
 			var rs = recordSeparator.ToCharArray();
 			System.Int32 i = 0;
 			var maxI = rs.Length;
-			var line = new System.Text.StringBuilder();
+			var output = new System.Text.StringBuilder();
 			System.Int32 j = 0;
 			System.Int32 c;
-			System.Boolean isNull = true;
 			do {
-				c = file.Read();
+				c = fileReader.Read();
 				if ( EOL == c ) {
-					maxI = 0;
+					yield return output.ToString();
 					break;
 				}
-				isNull = false;
-				_ = line.Append( System.Convert.ToChar( c ) );
-				if ( line[ j ].Equals( rs[ i ] ) ) {
+				output = output.Append( System.Convert.ToChar( c ) );
+				if ( output[ j ].Equals( rs[ i ] ) ) {
 					i++;
 				} else {
 					i = 0;
 				}
-				if ( i == maxI ) {
-					break;
-				}
 				j++;
+				if ( i == maxI ) {
+					output = output.Remove( output.Length - maxI, maxI );
+					yield return output.ToString();
+					output = output.Clear();
+					j = 0;
+				}
 			} while ( true );
-			_ = line.Remove( line.Length - maxI, maxI );
-			return isNull ? null : line.ToString();
 		}
-		public static System.String? ReadLine( 
-			this System.IO.StreamReader file, System.String recordSeparator, System.Char quoteChar
+		#endregion record sep
+		#endregion read line
+		#endregion line file
+
+		#region record file
+		#region quote
+		public static System.Collections.Generic.IEnumerable<System.String> ReadLine(
+			this System.String filePathName, System.String recordSeparator, System.Char quoteChar
+		) {
+			using ( var file = System.IO.File.Open( filePathName, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read ) ) {
+				return ReadLine( file, recordSeparator, quoteChar );
+			}
+		}
+		public static System.Collections.Generic.IEnumerable<System.String> ReadLine(
+			this System.IO.Stream stream, System.String recordSeparator, System.Char quoteChar
+		) {
+			using ( var reader = new System.IO.StreamReader( stream, System.Text.Encoding.UTF8, true, theBufferSize, true ) ) {
+				return ReadLine( reader, recordSeparator, quoteChar );
+			}
+		}
+		public static System.Collections.Generic.IEnumerable<System.String> ReadLine(
+			this System.IO.TextReader file, System.String recordSeparator, System.Char quoteChar
 		) {
 			if ( EOF == file.Peek() ) {
-				return null;
+				yield break;
 			}
 			var rs = recordSeparator.TrimToNull();
 			if ( System.String.IsNullOrEmpty( rs ) ) {
@@ -222,7 +202,7 @@ namespace Icod.Helpers {
 				throw new System.InvalidOperationException( "Quote character and record separator cannot be the same." );
 			}
 
-			var output = new System.Text.StringBuilder();
+			System.Text.StringBuilder output = new System.Text.StringBuilder();
 			var leLen = rs.Length;
 			var lenStop = leLen - 1;
 			System.Int32 i = 0;
@@ -235,10 +215,14 @@ namespace Icod.Helpers {
 				if ( isPlaintext ) {
 					if ( quoteChar.Equals( c ) ) {
 						isPlaintext = false;
-					} else if ( ( leLen <= output.Length ) && ( rs[ i ].Equals( output[ ( output.Length - leLen ) - i ] ) ) ) {
+					} else if (
+						( leLen <= output.Length )
+						&& ( rs[ i ].Equals( output[ ( output.Length - leLen ) - i ] ) )
+					) {
 						if ( lenStop <= ++i ) {
 							_ = output.Remove( output.Length - leLen, leLen );
-							break;
+							yield return output.ToString();
+							output = output.Clear();
 						}
 					} else {
 						i = 0;
@@ -261,48 +245,25 @@ namespace Icod.Helpers {
 				}
 				p = file.Read();
 			}
-
-			return output.ToString();
 		}
-		public static System.String? ReadLine( this System.IO.StreamReader file, System.String recordSeparator ) {
-			if ( EOF == file.Peek() ) {
-				return null;
-			}
-			var recsep = recordSeparator.TrimToNull();
-			if ( System.String.IsNullOrEmpty( recsep ) ) {
-				throw new System.ArgumentNullException( nameof( recordSeparator ) );
-			}
+		#endregion quote
 
-			var rs = recsep.ToCharArray();
-			System.Int32 i = 0;
-			var maxI = rs.Length;
-			var line = new System.Text.StringBuilder();
-			System.Int32 j = 0;
-			System.Int32 c;
-			System.Boolean isNull = true;
-			do {
-				c = file.Read();
-				if ( EOL == c ) {
-					maxI = 0;
-					break;
-				}
-				isNull = false;
-				_ = line.Append( System.Convert.ToChar( c ) );
-				if ( line[ j ].Equals( rs[ i ] ) ) {
-					i++;
-				} else {
-					i = 0;
-				}
-				if ( i == maxI ) {
-					break;
-				}
-				j++;
-			} while ( true );
-			_ = line.Remove( line.Length - maxI, maxI );
-			return isNull ? null : line.ToString();
+		#region field sep
+		public static System.Collections.Generic.IEnumerable<System.String> ReadLine(
+			this System.String filePathName, System.String recordSeparator, System.Char quoteChar, System.Char fieldSeparator
+		) {
+			using ( var file = System.IO.File.Open( filePathName, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read ) ) {
+				return ReadLine( file, recordSeparator, quoteChar, fieldSeparator );
+			}
 		}
-
-		public static System.Collections.Generic.IEnumerable<System.String?> ReadRecord(
+		public static System.Collections.Generic.IEnumerable<System.String> ReadLine(
+			this System.IO.Stream stream, System.String recordSeparator, System.Char quoteChar, System.Char fieldSeparator
+		) {
+			using ( var reader = new System.IO.StreamReader( stream, System.Text.Encoding.UTF8, true, theBufferSize, true ) ) {
+				return ReadLine( reader, recordSeparator, quoteChar, fieldSeparator );
+			}
+		}
+		public static System.Collections.Generic.IEnumerable<System.String> ReadLine(
 			this System.IO.TextReader file, System.String recordSeparator, System.Char quoteChar, System.Char fieldSeparator
 		) {
 			var rs = recordSeparator.TrimToNull();
@@ -310,70 +271,37 @@ namespace Icod.Helpers {
 				throw new System.ArgumentNullException( nameof( recordSeparator ) );
 			}
 
-			var line = file.ReadLine( recordSeparator, quoteChar );
-			if ( null == line ) {
-				yield break;
-			}
-			using ( var reader = new System.IO.StringReader( line ) ) {
-				System.Int32 i;
-				System.Char c;
-				System.String? column;
-				var qc = quoteChar;
-				do {
-					i = reader.Peek();
-					if ( EOL == i ) {
-						break;
-					}
-					c = System.Convert.ToChar( i );
-					if ( qc.Equals( c ) ) {
-						_ = reader.Read();
-						column = ReadColumn( reader, quoteChar, true );
-						yield return column;
-					} else {
-						column = ReadColumn( reader, fieldSeparator, false );
-						yield return column;
-					}
-				} while ( true );
+			foreach ( var line in file.ReadLine( recordSeparator, quoteChar ).Where(
+				x => null != x
+			) ) {
+				using ( var reader = new System.IO.StringReader( line ) ) {
+					System.Int32 i;
+					System.Char c;
+					System.String? column;
+					var qc = quoteChar;
+					do {
+						i = reader.Peek();
+						if ( EOL == i ) {
+							break;
+						}
+						c = System.Convert.ToChar( i );
+						if ( qc.Equals( c ) ) {
+							_ = reader.Read();
+							column = ReadColumn( reader, quoteChar, true );
+							yield return column;
+						} else {
+							column = ReadColumn( reader, fieldSeparator, false );
+							yield return column;
+						}
+					} while ( true );
+				}
 			}
 		}
-		public static System.Collections.Generic.IEnumerable<System.String?> ReadRecord(
-			this System.IO.StreamReader file, System.String recordSeparator, System.Char quoteChar, System.Char fieldSeparator
-		) {
-			if ( file.EndOfStream ) {
-				yield break;
-			}
-			var rs = recordSeparator.TrimToNull();
-			if ( System.String.IsNullOrEmpty( rs ) ) {
-				throw new System.ArgumentNullException( nameof( recordSeparator ) );
-			}
+		#endregion field sep
+		#endregion record file
 
-			var line = file.ReadLine( rs, quoteChar );
-			if ( null == line ) {
-				yield break;
-			}
-			using ( var reader = new System.IO.StringReader( line ) ) {
-				System.Int32 i;
-				System.Char c;
-				System.String? column;
-				var qc = quoteChar;
-				do {
-					i = reader.Peek();
-					if ( EOL == i ) {
-						break;
-					}
-					c = System.Convert.ToChar( i );
-					if ( qc.Equals( c ) ) {
-						_ = reader.Read();
-						column = ReadColumn( reader, quoteChar, true );
-						yield return column;
-					} else {
-						column = ReadColumn( reader, fieldSeparator, false );
-						yield return column;
-					}
-				} while ( true );
-			}
-		}
-		public static System.String? ReadColumn(
+		#region column
+		public static System.String ReadColumn(
 			this System.IO.StringReader reader, System.Char @break, System.Boolean readNextOnBreak
 		) {
 			var sb = new System.Text.StringBuilder( 128 );
@@ -386,10 +314,8 @@ namespace Icod.Helpers {
 					break;
 				}
 			} while ( true );
-			return sb.ToString().TrimToNull();
+			return sb.ToString();
 		}
-		#endregion record file
-
 		public static System.Nullable<System.Char> ReadChar(
 			this System.IO.StringReader reader, System.Char @break, System.Boolean readNextOnBreak
 		) {
@@ -413,6 +339,7 @@ namespace Icod.Helpers {
 			}
 			return c;
 		}
+		#endregion column
 		#endregion methods
 
 	}
