@@ -18,6 +18,8 @@
     USA
 */
 
+using System.IO;
+
 namespace Icod.Helpers {
 
 	[System.Xml.Serialization.XmlType( IncludeInSchema = false )]
@@ -55,16 +57,16 @@ namespace Icod.Helpers {
 		#region write line
 		public static void WriteLine( this System.String filePathName, System.Collections.Generic.IEnumerable<System.String> data ) {
 			using ( var file = System.IO.File.Open( filePathName, System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write, System.IO.FileShare.None ) ) {
+				_ = file.Seek( 0, System.IO.SeekOrigin.Begin );
 				WriteLine( file, data );
+				file.Flush();
+				file.SetLength( file.Position );
 			}
 		}
 		public static void WriteLine( this System.IO.Stream stream, System.Collections.Generic.IEnumerable<System.String> data ) {
-			_ = stream.Seek( 0, System.IO.SeekOrigin.Begin );
 			using ( var writer = new System.IO.StreamWriter( stream, System.Text.Encoding.UTF8, theBufferSize, true ) ) {
 				WriteLine( writer, data );
 			}
-			stream.Flush();
-			stream.SetLength( stream.Position );
 		}
 		public static void WriteLine( this System.IO.TextWriter writer, System.Collections.Generic.IEnumerable<System.String> data ) {
 			foreach ( var datum in data ) {
@@ -75,22 +77,21 @@ namespace Icod.Helpers {
 
 		public static void WriteLine( this System.String filePathName, System.String lineEnding, System.Collections.Generic.IEnumerable<System.String> data ) {
 			using ( var file = System.IO.File.Open( filePathName, System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write, System.IO.FileShare.None ) ) {
+				_ = file.Seek( 0, System.IO.SeekOrigin.Begin );
 				WriteLine( file, lineEnding, data );
+				file.Flush();
+				file.SetLength( file.Position );
 			}
 		}
 		public static void WriteLine( this System.IO.Stream stream, System.String lineEnding, System.Collections.Generic.IEnumerable<System.String> data ) {
-			_ = stream.Seek( 0, System.IO.SeekOrigin.Begin );
 			using ( var writer = new System.IO.StreamWriter( stream, System.Text.Encoding.UTF8, theBufferSize, true ) ) {
 				WriteLine( writer, lineEnding, data );
 			}
-			stream.Flush();
-			stream.SetLength( stream.Position );
 		}
 		public static void WriteLine( this System.IO.TextWriter writer, System.String lineEnding, System.Collections.Generic.IEnumerable<System.String> data ) {
-			var le = lineEnding.TrimToNull();
 			foreach ( var datum in data ) {
 				writer.Write( datum );
-				writer.Write( le );
+				writer.Write( lineEnding );
 			}
 			writer.Flush();
 		}

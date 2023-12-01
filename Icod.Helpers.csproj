@@ -38,13 +38,12 @@
 		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
 		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<FileVersion>1.0.0.0</FileVersion>
-		<AssemblyVersion>1.0.0.0</AssemblyVersion>
-		<PackageVersion>1.0.0</PackageVersion>
+		<FileVersion>1.0.1.0</FileVersion>
+		<AssemblyVersion>1.0.1.0</AssemblyVersion>
+		<PackageVersion>1.0.1</PackageVersion>
 		<PackageReleaseNotes>
-			Icod.Helpers is a helper utility containing extension methods
-			encapsulating commonly used String, CodePage, and File operations
-			into convenient functions.
+			Refactor file pointer management.
+			Fixed bug in WriteLine's lineEnding parameter.
 		</PackageReleaseNotes>
 	</PropertyGroup>
 
