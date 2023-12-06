@@ -18,7 +18,7 @@
     USA
 */
 
-using System.IO;
+using System.Linq;
 
 namespace Icod.Helpers {
 
@@ -265,7 +265,7 @@ namespace Icod.Helpers {
 				throw new System.ArgumentNullException( nameof( recordSeparator ) );
 			}
 
-			System.Collections.Generic.IList<System.String> output;
+			System.Collections.Generic.List<System.String> output;
 			foreach ( var line in file.ReadLine( recordSeparator, quoteChar ).Where(
 				x => null != x
 			) ) {

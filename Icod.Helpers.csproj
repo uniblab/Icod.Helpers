@@ -22,7 +22,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
+		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Title>Icod.Helpers</Title>
@@ -36,6 +36,7 @@
 		<PackageTags>util;file;string;code-page</PackageTags>
 		<PackageLicenseFile>Icod.Helpers.License.txt</PackageLicenseFile>
 		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+		<IncludeContentInPack>true</IncludeContentInPack>
 		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<FileVersion>1.0.2.0</FileVersion>
@@ -48,6 +49,7 @@
 		<None Update="Icod.Helpers.License.txt">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</None>
 		<None Update="README.md">
 			<Pack>True</Pack>
