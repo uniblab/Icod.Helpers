@@ -41,9 +41,7 @@
 		<FileVersion>1.0.2.0</FileVersion>
 		<AssemblyVersion>1.0.2.0</AssemblyVersion>
 		<PackageVersion>1.0.2</PackageVersion>
-		<PackageReleaseNotes>
-			Renamed license file.
-		</PackageReleaseNotes>
+		<PackageReleaseNotes></PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
