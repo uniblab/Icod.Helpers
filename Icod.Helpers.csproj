@@ -38,12 +38,11 @@
 		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
 		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<FileVersion>1.0.1.0</FileVersion>
-		<AssemblyVersion>1.0.1.0</AssemblyVersion>
-		<PackageVersion>1.0.1</PackageVersion>
+		<FileVersion>1.0.2.0</FileVersion>
+		<AssemblyVersion>1.0.2.0</AssemblyVersion>
+		<PackageVersion>1.0.2</PackageVersion>
 		<PackageReleaseNotes>
-			Refactor file pointer management.
-			Fixed bug in WriteLine's lineEnding parameter.
+			Renamed license file.
 		</PackageReleaseNotes>
 	</PropertyGroup>
 
