@@ -1,5 +1,5 @@
 ﻿// Icod.Helpers.dll is the Icod.Helpers utility .Net assembly.
-// Copyright (C) 2023  Timothy J. Bruce
+// Copyright (C) 2025  Timothy J. Bruce
 
 /*
     This library is free software; you can redistribute it and/or

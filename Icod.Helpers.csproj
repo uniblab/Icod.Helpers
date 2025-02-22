@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
     Icod.Helpers.dll is the Icod.Helpers utility .Net assembly.
-    Copyright (C) 2023  Timothy J. Bruce
+    Copyright (C) 2025  Timothy J. Bruce
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -28,7 +28,7 @@
 		<Title>Icod.Helpers</Title>
 		<Authors>uniblab</Authors>
 		<Description>$(AssemblyName) is a command-line arguments handler and processor.</Description>
-		<Copyright>Copyright (c) 2023 Timothy J. Bruce</Copyright>
+		<Copyright>Copyright (c) 2025 Timothy J. Bruce</Copyright>
 		<PackageProjectUrl>https://github.com/uniblab/Icod.Helpers</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/uniblab/Icod.Helpers</RepositoryUrl>

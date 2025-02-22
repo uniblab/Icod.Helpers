@@ -197,7 +197,7 @@ var json = webResponse.Body.GetWebString(
 Icod.Helpers is a helper utility containing extension methods 
 encapsulating commonly used String, CodePage, and File operations 
 into convenient functions.
-Copyright (C) 2023 Timothy J. Bruce
+Copyright (C) 2025 Timothy J. Bruce
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public

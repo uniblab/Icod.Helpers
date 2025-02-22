@@ -1,5 +1,5 @@
 ﻿// Icod.Helpers.dll is the Icod.Helpers utility .Net assembly.
-// Copyright (C) 2023  Timothy J. Bruce
+// Copyright (C) 2025  Timothy J. Bruce
 
 /*
     This library is free software; you can redistribute it and/or
@@ -150,7 +150,7 @@ namespace Icod.Helpers {
 				c = fileReader.Read();
 				if ( EOL == c ) {
 					yield return output.ToString();
-					break;
+					yield break;
 				}
 				output = output.Append( System.Convert.ToChar( c ) );
 				if ( output[ j ].Equals( rs[ i ] ) ) {
@@ -164,6 +164,7 @@ namespace Icod.Helpers {
 					yield return output.ToString();
 					output = output.Clear();
 					j = 0;
+					i = 0;
 				}
 			} while ( true );
 		}
