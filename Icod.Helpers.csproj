@@ -24,7 +24,7 @@
 		<OutputPath>bin\$(Configuration)\</OutputPath>
 		<DocumentationFile>$(OutDir)\$(Configuration)\$(TargetFrameworkVersion)\$(AssemblyName).XML</DocumentationFile>
 		<OutputType>Library</OutputType>
-		<TargetFrameworks>netstandard2.1;net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+		<TargetFrameworks>netcoreapp3.0;netcoreapp3.1;netstandard2.1;net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
 
 		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>enable</Nullable>
@@ -43,10 +43,10 @@
 		<IncludeContentInPack>true</IncludeContentInPack>
 		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<FileVersion>1.0.3.0</FileVersion>
-		<AssemblyVersion>1.0.3.0</AssemblyVersion>
-		<PackageVersion>1.0.3</PackageVersion>
-		<PackageReleaseNotes>Now supporting multiple platforms</PackageReleaseNotes>
+		<FileVersion>1.0.4.0</FileVersion>
+		<AssemblyVersion>1.0.4.0</AssemblyVersion>
+		<PackageVersion>1.0.4</PackageVersion>
+		<PackageReleaseNotes>Now supporting even more multiple platforms, fix license in readme.</PackageReleaseNotes>
 		<Configurations>Debug;Release;Staging</Configurations>
 		<SignAssembly>false</SignAssembly>
 	</PropertyGroup>
