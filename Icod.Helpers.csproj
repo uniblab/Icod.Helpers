@@ -32,6 +32,10 @@
 		<Title>Icod.Helpers</Title>
 		<Authors>uniblab</Authors>
 		<Description>$(AssemblyName) is a command-line arguments handler and processor.</Description>
+		<Configurations>Debug;Release;Staging</Configurations>
+		<SignAssembly>false</SignAssembly>
+	</PropertyGroup>
+	<PropertyGroup>
 		<Copyright>Copyright (c) 2025 Timothy J. Bruce</Copyright>
 		<PackageProjectUrl>https://github.com/uniblab/Icod.Helpers</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
@@ -47,8 +51,6 @@
 		<AssemblyVersion>1.0.4.0</AssemblyVersion>
 		<PackageVersion>1.0.4</PackageVersion>
 		<PackageReleaseNotes>Now supporting even more multiple platforms, fix license in readme.</PackageReleaseNotes>
-		<Configurations>Debug;Release;Staging</Configurations>
-		<SignAssembly>false</SignAssembly>
 	</PropertyGroup>
 
 	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
