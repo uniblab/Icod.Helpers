@@ -6,7 +6,7 @@
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
     License as published by the Free Software Foundation; either
-    version 2.1 of the License, or (at your option) any later version.
+    version 3 of the License, or (at your option) any later version.
 
     This library is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -21,7 +21,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
+		<OutputPath>bin\$(Configuration)\</OutputPath>
+		<DocumentationFile>$(OutDir)\$(Configuration)\$(TargetFrameworkVersion)\$(AssemblyName).XML</DocumentationFile>
+		<OutputType>Library</OutputType>
+		<TargetFrameworks>netstandard2.1;net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+
 		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -34,27 +38,51 @@
 		<RepositoryUrl>https://github.com/uniblab/Icod.Helpers</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>util;file;string;code-page</PackageTags>
-		<PackageLicenseFile>Icod.Helpers.License.txt</PackageLicenseFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
 		<IncludeContentInPack>true</IncludeContentInPack>
 		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<FileVersion>1.0.2.0</FileVersion>
-		<AssemblyVersion>1.0.2.0</AssemblyVersion>
-		<PackageVersion>1.0.2</PackageVersion>
-		<PackageReleaseNotes></PackageReleaseNotes>
+		<FileVersion>1.0.3.0</FileVersion>
+		<AssemblyVersion>1.0.3.0</AssemblyVersion>
+		<PackageVersion>1.0.3</PackageVersion>
+		<PackageReleaseNotes>Now supporting multiple platforms</PackageReleaseNotes>
+		<Configurations>Debug;Release;Staging</Configurations>
+		<SignAssembly>false</SignAssembly>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>2</WarningLevel>
+		<Optimize>false</Optimize>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<NoWarn>0628</NoWarn>
+		<NoWarn>1591</NoWarn>
+		<NoWarn>1735</NoWarn>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)' == 'Staging' ">
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>3</WarningLevel>
+		<Optimize>false</Optimize>
+		<DefineConstants>TRACE</DefineConstants>
+		<NoWarn>1591</NoWarn>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+		<Optimize>true</Optimize>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Update="Icod.Helpers.License.txt">
+		<Content Include="LICENSE" CopyToOutputDirectory="Always">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</None>
-		<None Update="README.md">
+		</Content>
+		<Content Include="README.md" CopyToOutputDirectory="Always">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
-		</None>
+		</Content>
 	</ItemGroup>
 
 </Project>
