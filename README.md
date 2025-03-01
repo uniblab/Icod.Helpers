@@ -25,7 +25,7 @@ var utf = Icod.Helpers.CodePageHelper.GetCodePage( "utf-8" );
 ```
 
 ### FileHelper
-This modile contains a static method for building file paths, as 
+This module contains a static method for building file paths, as 
 well as several extension methods for reading from and writing 
 to files.
 

@@ -19,38 +19,50 @@
     USA
 -->
 <Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<RootNamespace>Icod.Helpers</RootNamespace>
+		<AssemblyName>Icod.Helpers</AssemblyName>
+		<ProjectGuid>{C155D052-940A-49CF-9FB5-80A2E9AFC19F}</ProjectGuid>
+		<Title>Icod Text Stream, String, and Code Page helper.</Title>
+		<Description>$(AssemblyName) is a library to facilitate working with code pages, strings, and text streams.</Description>
+		<Copyright>Copyright (c) 2025 Timothy J. Bruce</Copyright>
+		<RepositoryType>git</RepositoryType>
+		<PackageProjectUrl>https://github.com/uniblab/Icod.Helpers</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/uniblab/Icod.Helpers</RepositoryUrl>
+		<PackageTags>util;stream;file;string;code-page</PackageTags>
+		<FileVersion>1.0.6.0</FileVersion>
+		<AssemblyVersion>1.0.6.0</AssemblyVersion>
+		<PackageVersion>1.0.6</PackageVersion>
+		<PackageReleaseNotes>Reformat project file. Rename Readme.Md file on output.</PackageReleaseNotes>
+	</PropertyGroup>
 
 	<PropertyGroup>
-		<OutputPath>bin\$(Configuration)\</OutputPath>
-		<DocumentationFile>$(OutDir)\$(Configuration)\$(TargetFrameworkVersion)\$(AssemblyName).XML</DocumentationFile>
-		<OutputType>Library</OutputType>
-		<TargetFrameworks>netcoreapp3.0;netcoreapp3.1;netstandard2.1;net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
-
 		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Title>Icod.Helpers</Title>
-		<Authors>uniblab</Authors>
-		<Description>$(AssemblyName) is a command-line arguments handler and processor.</Description>
-		<Configurations>Debug;Release;Staging</Configurations>
-		<SignAssembly>false</SignAssembly>
-	</PropertyGroup>
-	<PropertyGroup>
-		<Copyright>Copyright (c) 2025 Timothy J. Bruce</Copyright>
-		<PackageProjectUrl>https://github.com/uniblab/Icod.Helpers</PackageProjectUrl>
+		<Authors>Timothy J. Bruce</Authors>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<RepositoryUrl>https://github.com/uniblab/Icod.Helpers</RepositoryUrl>
-		<RepositoryType>git</RepositoryType>
-		<PackageTags>util;file;string;code-page</PackageTags>
+		<PackageIcon>icon.png</PackageIcon>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 		<IncludeContentInPack>true</IncludeContentInPack>
 		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<FileVersion>1.0.4.0</FileVersion>
-		<AssemblyVersion>1.0.4.0</AssemblyVersion>
-		<PackageVersion>1.0.4</PackageVersion>
-		<PackageReleaseNotes>Now supporting even more multiple platforms, fix license in readme.</PackageReleaseNotes>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<TargetFrameworks>netcoreapp3.0;netcoreapp3.1;netstandard2.1;net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+		<OutputType>Library</OutputType>
+		<OutputPath>bin\$(Configuration)\</OutputPath>
+		<DocumentationFile>$(OutDir)\$(Configuration)\$(TargetFrameworkVersion)\$(AssemblyName).XML</DocumentationFile>
+		<StartupObject />
+		<TargetFrameworkProfile></TargetFrameworkProfile>
+		<FileAlignment>512</FileAlignment>
+		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+		<Configuration Condition=" '$(Platform)' == '' ">AnyCPU</Configuration>
+		<Configurations>Debug;Release;Staging</Configurations>
+		<SignAssembly>false</SignAssembly>
 	</PropertyGroup>
 
 	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -73,18 +85,39 @@
 		<Optimize>true</Optimize>
 		<ErrorReport>prompt</ErrorReport>
 		<WarningLevel>4</WarningLevel>
+		<AssemblyKeyContainerName>Icod</AssemblyKeyContainerName>
+		<AssemblyOriginatorKeyFile>..\STRONG_NAME_KEY\Icod.snk</AssemblyOriginatorKeyFile>
+		<SignAssembly>true</SignAssembly>
+		<DelaySign>false</DelaySign>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Content Include="LICENSE" CopyToOutputDirectory="Always">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Content>
 		<Content Include="README.md" CopyToOutputDirectory="Always">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</Content>
+		<Content Include="LICENSE" CopyToOutputDirectory="Always">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</Content>
+		<None Include="icon.png" Pack="true" PackagePath="" />
 	</ItemGroup>
-
+	<Target Name="RmContent" AfterTargets="Clean" Condition=" '$(OutDir)' != '' ">
+		<Delete ContinueOnError="false"
+			Files="$(OutDir)\$(AssemblyName).License.txt"
+		/>
+		<Delete ContinueOnError="false"
+			Files="$(OutDir)\$(AssemblyName).ReadMe.md"
+		/>
+	</Target>
+	<Target Name="MvContent" AfterTargets="Build" Condition=" '$(OutDir)' != '' ">
+		<Move ContinueOnError="false"
+			SourceFiles="$(OutDir)\LICENSE"
+			DestinationFiles="$(OutDir)\$(AssemblyName).License.txt"
+		/>
+		<Move ContinueOnError="false"
+			SourceFiles="$(OutDir)\README.md"
+			DestinationFiles="$(OutDir)\$(AssemblyName).ReadMe.md"
+		/>
+	</Target>
 </Project>
