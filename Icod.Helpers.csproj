@@ -29,40 +29,40 @@
 		<RepositoryType>git</RepositoryType>
 		<PackageProjectUrl>https://github.com/uniblab/Icod.Helpers</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/uniblab/Icod.Helpers</RepositoryUrl>
-		<PackageTags>util;stream;file;string;code-page</PackageTags>
-		<FileVersion>1.0.6.0</FileVersion>
-		<AssemblyVersion>1.0.6.0</AssemblyVersion>
-		<PackageVersion>1.0.6</PackageVersion>
-		<PackageReleaseNotes>Reformat project file. Rename Readme.Md file on output.</PackageReleaseNotes>
+		<PackageTags>library, util, text, stream, file, text stream, text-stream, text file, text-file, string, code page, code-page</PackageTags>
+		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+		<TargetFrameworks>netcoreapp3.0;netcoreapp3.1;netstandard2.1;net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+		<OutputType>Library</OutputType>
+		<StartupObject />
+
+		<FileVersion>1.0.5.0</FileVersion>
+		<AssemblyVersion>1.0.5.0</AssemblyVersion>
+		<PackageVersion>1.0.5</PackageVersion>
+		<PackageReleaseNotes>Add Icod class attributes</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<PropertyGroup>
+		<TargetFrameworkProfile></TargetFrameworkProfile>
+		<FileAlignment>512</FileAlignment>
+		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+		<Configuration Condition=" '$(Platform)' == '' ">AnyCPU</Configuration>
+		<Configurations>Debug;Staging;Release</Configurations>
+		<SignAssembly>false</SignAssembly>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<OutputPath>bin\$(Configuration)\</OutputPath>
+		<DocumentationFile>$(OutDir)\$(Configuration)\$(TargetFrameworkVersion)\$(AssemblyName).XML</DocumentationFile>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Authors>Timothy J. Bruce</Authors>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageIcon>icon.png</PackageIcon>
-		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 		<IncludeContentInPack>true</IncludeContentInPack>
 		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-	</PropertyGroup>
-
-	<PropertyGroup>
-		<TargetFrameworks>netcoreapp3.0;netcoreapp3.1;netstandard2.1;net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
-		<OutputType>Library</OutputType>
-		<OutputPath>bin\$(Configuration)\</OutputPath>
-		<DocumentationFile>$(OutDir)\$(Configuration)\$(TargetFrameworkVersion)\$(AssemblyName).XML</DocumentationFile>
-		<StartupObject />
-		<TargetFrameworkProfile></TargetFrameworkProfile>
-		<FileAlignment>512</FileAlignment>
-		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-		<Configuration Condition=" '$(Platform)' == '' ">AnyCPU</Configuration>
-		<Configurations>Debug;Release;Staging</Configurations>
-		<SignAssembly>false</SignAssembly>
 	</PropertyGroup>
 
 	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -92,6 +92,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Icod" Version="2.0.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EditorConfigFiles Remove=".editorconfig" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Content Include="README.md" CopyToOutputDirectory="Always">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
@@ -102,22 +110,13 @@
 		</Content>
 		<None Include="icon.png" Pack="true" PackagePath="" />
 	</ItemGroup>
+
 	<Target Name="RmContent" AfterTargets="Clean" Condition=" '$(OutDir)' != '' ">
-		<Delete ContinueOnError="false"
-			Files="$(OutDir)\$(AssemblyName).License.txt"
-		/>
-		<Delete ContinueOnError="false"
-			Files="$(OutDir)\$(AssemblyName).ReadMe.md"
-		/>
+		<Delete ContinueOnError="false" Files="$(OutDir)\$(AssemblyName).License.txt" />
+		<Delete ContinueOnError="false" Files="$(OutDir)\$(AssemblyName).ReadMe.md" />
 	</Target>
 	<Target Name="MvContent" AfterTargets="Build" Condition=" '$(OutDir)' != '' ">
-		<Move ContinueOnError="false"
-			SourceFiles="$(OutDir)\LICENSE"
-			DestinationFiles="$(OutDir)\$(AssemblyName).License.txt"
-		/>
-		<Move ContinueOnError="false"
-			SourceFiles="$(OutDir)\README.md"
-			DestinationFiles="$(OutDir)\$(AssemblyName).ReadMe.md"
-		/>
+		<Move ContinueOnError="false" SourceFiles="$(OutDir)\LICENSE" DestinationFiles="$(OutDir)\$(AssemblyName).License.txt" />
+		<Move ContinueOnError="false" SourceFiles="$(OutDir)\README.md" DestinationFiles="$(OutDir)\$(AssemblyName).ReadMe.md" />
 	</Target>
 </Project>
