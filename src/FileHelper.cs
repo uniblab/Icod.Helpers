@@ -22,7 +22,11 @@ using System.Linq;
 
 namespace Icod.Helpers {
 
+	/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="FileHelper"]/member[@name=""]/*'/>
 	[System.Xml.Serialization.XmlType( IncludeInSchema = false )]
+	[Icod.LgplLicense]
+	[Icod.Author( "Timothy J. Bruce" )]
+	[Icod.ReportBugsTo( "uniblab@hotmail.com" )]
 	public static class FileHelper {
 
 		#region fields
@@ -34,6 +38,7 @@ namespace Icod.Helpers {
 
 
 		#region methods
+		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="FileHelper"]/member[@name="PathCombine(System.String,System.Char,System.String)"]/*'/>
 		public static System.String PathCombine( System.String path, System.Char pathSeparator, System.String name ) {
 			var n = name.TrimToNull();
 			if ( System.String.IsNullOrEmpty( n ) ) {
@@ -45,16 +50,25 @@ namespace Icod.Helpers {
 			}
 			var sep = pathSeparator.ToString();
 			while ( p.EndsWith( sep ) ) {
+#if NET5_0_OR_GREATER || NETCOREAPP3_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
 				p = p[ ..^1 ];
+#else
+				p = p.Substring( 0, p.Length - 1 );
+#endif
 			}
 			while ( n.StartsWith( sep ) ) {
-				n = n[ 1.. ];
+#if NET5_0_OR_GREATER || NETCOREAPP3_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+				p = p[ 1.. ];
+#else
+				n = n.Substring( 1 );
+#endif
 			}
 			return p + sep + name;
 		}
 
 		#region line file
 		#region write line
+		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="FileHelper"]/member[@name="WriteLine(System.String,System.Collections.Generic.IEnumerable{System.String})"]/*'/>
 		public static void WriteLine( this System.String filePathName, System.Collections.Generic.IEnumerable<System.String> data ) {
 			using ( var file = System.IO.File.Open( filePathName, System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write, System.IO.FileShare.None ) ) {
 				_ = file.Seek( 0, System.IO.SeekOrigin.Begin );
@@ -63,11 +77,13 @@ namespace Icod.Helpers {
 				file.SetLength( file.Position );
 			}
 		}
+		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="FileHelper"]/member[@name="WriteLine(System.IO.Stream,System.Collections.Generic.IEnumerable{System.String})"]/*'/>
 		public static void WriteLine( this System.IO.Stream stream, System.Collections.Generic.IEnumerable<System.String> data ) {
 			using ( var writer = new System.IO.StreamWriter( stream, System.Text.Encoding.UTF8, theBufferSize, true ) ) {
 				WriteLine( writer, data );
 			}
 		}
+		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="FileHelper"]/member[@name="WriteLine(System.IO.TextWriter,System.Collections.Generic.IEnumerable{System.String})"]/*'/>
 		public static void WriteLine( this System.IO.TextWriter writer, System.Collections.Generic.IEnumerable<System.String> data ) {
 			foreach ( var datum in data ) {
 				writer.WriteLine( datum );
@@ -75,6 +91,7 @@ namespace Icod.Helpers {
 			writer.Flush();
 		}
 
+		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="FileHelper"]/member[@name="WriteLine(System.String,System.String,System.Collections.Generic.IEnumerable{System.String})"]/*'/>
 		public static void WriteLine( this System.String filePathName, System.String lineEnding, System.Collections.Generic.IEnumerable<System.String> data ) {
 			using ( var file = System.IO.File.Open( filePathName, System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write, System.IO.FileShare.None ) ) {
 				_ = file.Seek( 0, System.IO.SeekOrigin.Begin );
@@ -83,11 +100,13 @@ namespace Icod.Helpers {
 				file.SetLength( file.Position );
 			}
 		}
+		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="FileHelper"]/member[@name="WriteLine(System.IO.Stream,System.String,System.Collections.Generic.IEnumerable{System.String})"]/*'/>
 		public static void WriteLine( this System.IO.Stream stream, System.String lineEnding, System.Collections.Generic.IEnumerable<System.String> data ) {
 			using ( var writer = new System.IO.StreamWriter( stream, System.Text.Encoding.UTF8, theBufferSize, true ) ) {
 				WriteLine( writer, lineEnding, data );
 			}
 		}
+		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="FileHelper"]/member[@name="WriteLine(System.IO.TextWriter,System.String,System.Collections.Generic.IEnumerable{System.String})"]/*'/>
 		public static void WriteLine( this System.IO.TextWriter writer, System.String lineEnding, System.Collections.Generic.IEnumerable<System.String> data ) {
 			foreach ( var datum in data ) {
 				writer.Write( datum );
@@ -98,27 +117,31 @@ namespace Icod.Helpers {
 		#endregion write line
 
 		#region read line
+		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="FileHelper"]/member[@name="ReadLine(System.String)"]/*'/>
 		public static System.Collections.Generic.IEnumerable<System.String> ReadLine( this System.String filePathName ) {
 			using ( var file = System.IO.File.Open( filePathName, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read ) ) {
 				return ReadLine( file );
 			}
 		}
+		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="FileHelper"]/member[@name="ReadLine(System.IO.Stream)"]/*'/>
 		public static System.Collections.Generic.IEnumerable<System.String> ReadLine( this System.IO.Stream stream ) {
 			using ( var reader = new System.IO.StreamReader( stream, System.Text.Encoding.UTF8, true, theBufferSize, true ) ) {
 				return ReadLine( reader );
 			}
 		}
-		public static System.Collections.Generic.IEnumerable<System.String> ReadLine( this System.IO.TextReader fileReader ) {
-			var line = fileReader.ReadLine();
+		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="FileHelper"]/member[@name="ReadLine(System.IO.TextReader)"]/*'/>
+		public static System.Collections.Generic.IEnumerable<System.String> ReadLine( this System.IO.TextReader reader ) {
+			var line = reader.ReadLine();
 			while ( null != line ) {
 				line = line.TrimToNull();
 				if ( null != line ) {
 					yield return line;
 				}
-				line = fileReader.ReadLine();
+				line = reader.ReadLine();
 			}
 		}
 
+		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="FileHelper"]/member[@name="ReadLine(System.String,System.String)"]/*'/>
 		public static System.Collections.Generic.IEnumerable<System.String> ReadLine(
 			this System.String filePathName, System.String recordSeparator
 		) {
@@ -126,6 +149,7 @@ namespace Icod.Helpers {
 				return ReadLine( file, recordSeparator );
 			}
 		}
+		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="FileHelper"]/member[@name="ReadLine(System.IO.Stream,System.String)"]/*'/>
 		public static System.Collections.Generic.IEnumerable<System.String> ReadLine(
 			this System.IO.Stream stream, System.String recordSeparator
 		) {
@@ -133,10 +157,11 @@ namespace Icod.Helpers {
 				return ReadLine( reader, recordSeparator );
 			}
 		}
+		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="FileHelper"]/member[@name="ReadLine(System.IO.TextReader,System.String)"]/*'/>
 		public static System.Collections.Generic.IEnumerable<System.String> ReadLine(
-			this System.IO.TextReader fileReader, System.String recordSeparator
+			this System.IO.TextReader reader, System.String recordSeparator
 		) {
-			if ( EOF == fileReader.Peek() ) {
+			if ( EOF == reader.Peek() ) {
 				yield break;
 			}
 
@@ -147,7 +172,7 @@ namespace Icod.Helpers {
 			System.Int32 j = 0;
 			System.Int32 c;
 			do {
-				c = fileReader.Read();
+				c = reader.Read();
 				if ( EOL == c ) {
 					yield return output.ToString();
 					yield break;
@@ -169,6 +194,7 @@ namespace Icod.Helpers {
 			} while ( true );
 		}
 
+		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="FileHelper"]/member[@name="ReadLine(System.String,System.String,System.Char)"]/*'/>
 		public static System.Collections.Generic.IEnumerable<System.String> ReadLine(
 			this System.String filePathName, System.String recordSeparator, System.Char quoteChar
 		) {
@@ -176,6 +202,7 @@ namespace Icod.Helpers {
 				return ReadLine( file, recordSeparator, quoteChar );
 			}
 		}
+		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="FileHelper"]/member[@name="ReadLine(System.IO.Stream,System.String,System.Char)"]/*'/>
 		public static System.Collections.Generic.IEnumerable<System.String> ReadLine(
 			this System.IO.Stream stream, System.String recordSeparator, System.Char quoteChar
 		) {
@@ -183,10 +210,11 @@ namespace Icod.Helpers {
 				return ReadLine( reader, recordSeparator, quoteChar );
 			}
 		}
+		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="FileHelper"]/member[@name="ReadLine(System.IO.TextReader,System.String,System.Char)"]/*'/>
 		public static System.Collections.Generic.IEnumerable<System.String> ReadLine(
-			this System.IO.TextReader file, System.String recordSeparator, System.Char quoteChar
+			this System.IO.TextReader reader, System.String recordSeparator, System.Char quoteChar
 		) {
-			if ( EOF == file.Peek() ) {
+			if ( EOF == reader.Peek() ) {
 				yield break;
 			}
 			var rs = recordSeparator.TrimToNull();
@@ -202,7 +230,7 @@ namespace Icod.Helpers {
 			System.Int32 i = 0;
 			System.Char c;
 			System.Boolean isPlaintext = true;
-			System.Int32 p = file.Read();
+			System.Int32 p = reader.Read();
 			while ( EOL != p ) {
 				c = System.Convert.ToChar( p );
 				output = output.Append( c );
@@ -223,13 +251,13 @@ namespace Icod.Helpers {
 					}
 				} else {
 					if ( quoteChar.Equals( c ) ) {
-						p = file.Peek();
+						p = reader.Peek();
 						if ( EOL == p ) {
 							throw new System.IO.EndOfStreamException();
 						}
 						c = System.Convert.ToChar( p );
 						if ( quoteChar.Equals( c ) ) {
-							_ = file.Read();
+							_ = reader.Read();
 							output = output.Append( c );
 						} else {
 							i = 0;
@@ -237,13 +265,14 @@ namespace Icod.Helpers {
 						}
 					}
 				}
-				p = file.Read();
+				p = reader.Read();
 			}
 		}
 		#endregion read line
 		#endregion line file
 
 		#region record file
+		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="FileHelper"]/member[@name="ReadRecord(System.String,System.String,System.Char,System.Char)"]/*'/>
 		public static System.Collections.Generic.IEnumerable<System.Collections.Generic.IEnumerable<System.String>> ReadRecord(
 			this System.String filePathName, System.String recordSeparator, System.Char quoteChar, System.Char fieldSeparator
 		) {
@@ -251,6 +280,7 @@ namespace Icod.Helpers {
 				return ReadRecord( file, recordSeparator, quoteChar, fieldSeparator );
 			}
 		}
+		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="FileHelper"]/member[@name="ReadRecord(System.IO.Stream,System.String,System.Char,System.Char)"]/*'/>
 		public static System.Collections.Generic.IEnumerable<System.Collections.Generic.IEnumerable<System.String>> ReadRecord(
 			this System.IO.Stream stream, System.String recordSeparator, System.Char quoteChar, System.Char fieldSeparator
 		) {
@@ -258,36 +288,34 @@ namespace Icod.Helpers {
 				return ReadRecord( reader, recordSeparator, quoteChar, fieldSeparator );
 			}
 		}
+		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="FileHelper"]/member[@name="ReadRecord(System.IO.TextReader,System.String,System.Char,System.Char)"]/*'/>
 		public static System.Collections.Generic.IEnumerable<System.Collections.Generic.IEnumerable<System.String>> ReadRecord(
-			this System.IO.TextReader file, System.String recordSeparator, System.Char quoteChar, System.Char fieldSeparator
+			this System.IO.TextReader reader, System.String recordSeparator, System.Char quoteChar, System.Char fieldSeparator
 		) {
 			var rs = recordSeparator.TrimToNull();
 			if ( System.String.IsNullOrEmpty( rs ) ) {
 				throw new System.ArgumentNullException( nameof( recordSeparator ) );
 			}
 
-			System.Collections.Generic.List<System.String> output;
-			foreach ( var line in file.ReadLine( recordSeparator, quoteChar ).Where(
+			foreach ( var line in reader.ReadLine( recordSeparator, quoteChar ).Where(
 				x => null != x
 			) ) {
-				using ( var reader = new System.IO.StringReader( line ) ) {
-					output = new System.Collections.Generic.List<System.String>(
-						reader.ReadColumn( quoteChar, fieldSeparator )
-					);
-					yield return output.AsReadOnly();
-				}
+				yield return ReadColumn( line, quoteChar, fieldSeparator );
 			}
 		}
 		#endregion record file
 
 		#region column
+		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="FileHelper"]/member[@name="ReadColumn(System.String,System.Char,System.Char)"]/*'/>
 		public static System.Collections.Generic.IEnumerable<System.String> ReadColumn(
-			this System.String line, System.Char quoteChar, System.Char fieldSeparator
+			System.String record, System.Char quoteChar, System.Char fieldSeparator
 		) {
-			using ( var reader = new System.IO.StringReader( line ) ) {
-				return reader.ReadColumn( quoteChar, fieldSeparator );
+			record = record.TrimToNull() ?? throw new System.ArgumentNullException( nameof( record ) );
+			using ( var reader = new System.IO.StringReader( record ) ) {
+				return ReadColumn( reader, quoteChar, fieldSeparator );
 			}
 		}
+		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="FileHelper"]/member[@name="ReadColumn(System.IO.TextReader,System.Char,System.Char)"]/*'/>
 		public static System.Collections.Generic.IEnumerable<System.String> ReadColumn(
 			this System.IO.TextReader reader, System.Char quoteChar, System.Char fieldSeparator
 		) {
