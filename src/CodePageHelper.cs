@@ -21,7 +21,7 @@
 namespace Icod.Helpers {
 
 	/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="CodePageHelper"]/member[@name=""]/*'/>
-	/// [System.Xml.Serialization.XmlType( IncludeInSchema = false )]
+	[System.Xml.Serialization.XmlType( IncludeInSchema = false )]
 	[Icod.LgplLicense]
 	[Icod.Author( "Timothy J. Bruce" )]
 	[Icod.ReportBugsTo( "uniblab@hotmail.com" )]
