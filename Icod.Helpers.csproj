@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Icod.Helpers.dll is the Icod.Helpers utility .Net assembly.
+    Icod.Helpers cross-platform code-page, text file, and string helper library.
     Copyright (C) 2025  Timothy J. Bruce
 
     This library is free software; you can redistribute it and/or
@@ -20,6 +20,14 @@
 -->
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
+		<TargetFrameworks>net461;net462;net47;net471;net472;net48;net481;netcoreapp3.1;netstandard2.1;net5.0;net6.0;net7.0;net8.0;net9.0;</TargetFrameworks>
+		<FileVersion>1.1.0.0</FileVersion>
+		<AssemblyVersion>1.1.0.0</AssemblyVersion>
+		<PackageVersion>1.1.0</PackageVersion>
+		<PackageReleaseNotes>Supporting more platforms.  Adding Xmldoc.</PackageReleaseNotes>
+	</PropertyGroup>
+
+	<PropertyGroup>
 		<RootNamespace>Icod.Helpers</RootNamespace>
 		<AssemblyName>Icod.Helpers</AssemblyName>
 		<ProjectGuid>{C155D052-940A-49CF-9FB5-80A2E9AFC19F}</ProjectGuid>
@@ -31,14 +39,8 @@
 		<RepositoryUrl>https://github.com/uniblab/Icod.Helpers</RepositoryUrl>
 		<PackageTags>library, util, text, stream, file, text stream, text-stream, text file, text-file, string, code page, code-page</PackageTags>
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-		<TargetFrameworks>netcoreapp3.0;netcoreapp3.1;netstandard2.1;net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
 		<OutputType>Library</OutputType>
 		<StartupObject />
-
-		<FileVersion>1.0.5.0</FileVersion>
-		<AssemblyVersion>1.0.5.0</AssemblyVersion>
-		<PackageVersion>1.0.5</PackageVersion>
-		<PackageReleaseNotes>Add Icod class attributes</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -53,7 +55,6 @@
 		<OutputPath>bin\$(Configuration)\</OutputPath>
 		<DocumentationFile>$(OutDir)\$(Configuration)\$(TargetFrameworkVersion)\$(AssemblyName).XML</DocumentationFile>
 		<ImplicitUsings>disable</ImplicitUsings>
-		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Authors>Timothy J. Bruce</Authors>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
