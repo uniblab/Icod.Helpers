@@ -1,0 +1,666 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Icod.Helpers cross-platform code-page, text file, and string helper library.
+    Copyright (C) 2025 Timothy J. Bruce
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 3 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301
+    USA
+-->
+<types>
+	<type name="CodePageHelper">
+		<member name="">
+			<summary>A static class to facilitate code page search.</summary>
+		</member>
+		<member name="GetCodePage">
+			<summary>
+				Returns the encoding specified by either code page name or code page number.
+			</summary>
+			<param name="codePage">
+				A <see cref="T:System.String" /> specifying either the codepage name or codepage number.
+			</param>
+			<returns>
+				The <see cref="System.Text.Encoding" /> as specified by the <paramref name="codePage" /> value.
+			</returns>
+		</member>
+	</type>
+
+	<type name="StringHelper">
+		<member name="">
+			<summary>
+				A static class which exposes the <see cref="M:TrimToNull" /> method.
+			</summary>
+		</member>
+		<member name="TrimToNull(System.String)">
+			<param name="string">
+				The <see cref="T:System.String" /> to trim.
+			</param>
+			<returns>
+				Returns <see langword="null"/> if the supplied <see cref="T:System.String"/> is null,
+				empty, or consists only of whitespace; otherwise a string value with all white space
+				trimmed from both ends is returned.
+			</returns>
+		</member>
+		<member name="Compress(System.String,System.Text.Encoding,System.Func{System.IO.Stream,System.IO.Compression.CompressionMode,System.Boolean,System.IO.Stream})">
+			<summary>
+				A generic function to compress string values.  Typically used when generating web responses.
+			</summary>
+			<param name="string">
+				The <see cref="T:System.String"/> to compress.
+			</param>
+			<param name="encoding">
+				The specific character <see cref="T:System.Text.Encoding"/> to use when serializing the specific <see cref="T:System.String"/> as a <see cref="T:System.Byte"/>[].
+			</param>
+			<param name="compressor">
+				A functor which references the actual worker routines to compress actually compress the <see cref="T:System.String"/> value.
+			</param>
+			<returns>
+				A <see cref="T:System.Byte"/>[] containing the compressed value of the specified <see cref="T:System.String"/>.
+			</returns>
+			<seealso cref="T:System.IO.MemoryStream" />
+			<seealso cref="T:System.IO.Compression.GZipStream" />
+			<seealso cref="T:System.IO.Compression.DeflateStream" />
+		</member>
+		<member name="Gzip(System.String,System.Text.Encoding)">
+			<summary>
+				Compresses strings using the GZip compression algorithm.  Typically used when generating web responses.
+			</summary>
+			<param name="string">
+				The <see cref="T:System.String"/> to compress.
+			</param>
+			<param name="encoding">
+				The specific character <see cref="T:System.Text.Encoding"/> to use when serializing the specific <see cref="T:System.String"/> as a <see cref="T:System.Byte"/>[].
+			</param>
+			<returns>
+				A <see cref="T:System.Byte"/>[] containing the compressed value of the specified <see cref="T:System.String"/>.
+			</returns>
+			<seealso cref="T:System.IO.MemoryStream" />
+			<seealso cref="T:System.IO.Compression.GZipStream" />
+			<seealso cref="T:System.IO.Compression.DeflateStream" />
+		</member>
+		<member name="Deflate(System.String,System.Text.Encoding)">
+			<summary>
+				Compresses strings using the Deflate compression algorithm.  Typically used when generating web responses.
+			</summary>
+			<param name="string">
+				The <see cref="T:System.String"/> to compress.
+			</param>
+			<param name="encoding">
+				The specific character <see cref="T:System.Text.Encoding"/> to use when serializing the specific <see cref="T:System.String"/> as a <see cref="T:System.Byte"/>[].
+			</param>
+			<returns>
+				A <see cref="T:System.Byte"/>[] containing the compressed value of the specified <see cref="T:System.String"/>.
+			</returns>
+			<seealso cref="T:System.IO.MemoryStream" />
+			<seealso cref="T:System.IO.Compression.GZipStream" />
+			<seealso cref="T:System.IO.Compression.DeflateStream" />
+		</member>
+		<member name="Decompress(System.Byte[],System.Text.Encoding,System.Func{System.IO.Stream,System.IO.Compression.CompressionMode,System.Boolean,System.IO.Stream})">
+			<summary>
+				A generic function to decompress string values.  Typically used when receiving web responses.
+			</summary>
+			<param name="response">
+				The <see cref="T:System.Byte"/>[] to decompress.
+			</param>
+			<param name="encoding">
+				The specific character <see cref="T:System.Text.Encoding"/> to use when translating the decompressed <see cref="T:System.Byte"/>[] into a <see cref="T:System.String"/> value.
+			</param>
+			<param name="decompressor">
+				A functor which references the actual worker routines to compress actually compress the <see cref="T:System.String"/> value.
+			</param>
+			<returns>
+				A <see cref="T:System.String"/>.
+			</returns>
+			<seealso cref="T:System.IO.MemoryStream" />
+			<seealso cref="T:System.IO.Compression.GZipStream" />
+			<seealso cref="T:System.IO.Compression.DeflateStream" />
+		</member>
+		<member name="Gunzip(System.Byte[],System.Text.Encoding)">
+			<summary>
+				Compresses strings using the GZip compression algorithm.  Typically used when receiving web responses.
+			</summary>
+			<param name="response">
+				The <see cref="T:System.Byte"/>[] to decompress.
+			</param>
+			<param name="encoding">
+				The specific character <see cref="T:System.Text.Encoding"/> to use when translating the decompressed <see cref="T:System.Byte"/>[] into a <see cref="T:System.String"/> value.
+			</param>
+			<returns>
+				A <see cref="T:System.String"/>.
+			</returns>
+			<seealso cref="T:System.IO.MemoryStream" />
+			<seealso cref="T:System.IO.Compression.GZipStream" />
+			<seealso cref="T:System.IO.Compression.DeflateStream" />
+		</member>
+		<member name="Inflate(System.Byte[],System.Text.Encoding)">
+			<summary>
+				Decompresses strings using the Deflate compression algorithm.  Typically used when receiving web responses.
+			</summary>
+			<param name="response">
+				The <see cref="T:System.Byte"/>[] to decompress.
+			</param>
+			<param name="encoding">
+				The specific character <see cref="T:System.Text.Encoding"/> to use when translating the decompressed <see cref="T:System.Byte"/>[] into a <see cref="T:System.String"/> value.
+			</param>
+			<returns>
+				A <see cref="T:System.String"/>.
+			</returns>
+			<seealso cref="T:System.IO.MemoryStream" />
+			<seealso cref="T:System.IO.Compression.GZipStream" />
+			<seealso cref="T:System.IO.Compression.DeflateStream" />
+		</member>
+		<member name="GetString(System.Byte[],System.Text.Encoding)">
+			<summary>
+				Converts a <see cref="T:System.Byte"/>[] into a <see cref="T:System.String"/>.
+			</summary>
+			<param name="response">
+				The <see cref="T:System.Byte"/>[] to decompress.
+			</param>
+			<param name="encoding">
+				The specific character <see cref="T:System.Text.Encoding"/> to use to convert the specified <see cref="T:System.Byte"/>[] into a <see cref="T:System.String"/> value.
+			</param>
+			<returns>
+				A <see cref="T:System.String"/>.
+			</returns>
+		</member>
+		<member name="GetWebString(System.Byte[],System.Text.Encoding,System.String)">
+			<summary>
+				Converts the <see cref="T:System.Byte"/>[] web response into a <see cref="T:System.String"/>,
+				decompressing the value if necessary.
+			</summary>
+			<param name="response">
+				The <see cref="T:System.Byte"/>[] to decompress.
+			</param>
+			<param name="encoding">
+				The specific character <see cref="T:System.Text.Encoding"/> to use to convert the specified <see cref="T:System.Byte"/>[] into a <see cref="T:System.String"/> value.
+			</param>
+			<param name="contentEncoding">
+				Specifies how the respnose is compressed, if at all.  Typical values are 'identity', 'gzip', and 'deflate', or not present.
+			</param>
+			<returns>
+				The decompressed <see cref="T:System.String"/> of the <see cref="T:System.Byte"/>[] response.
+			</returns>
+		</member>
+	</type>
+
+	<type name="FileHelper">
+		<member name="">
+			<summary>
+				A static class which exposes a number of file operations common to working with
+				text files of all types, but specifically for character-delmited files (i.e., CSV).
+			</summary>
+		</member>
+		<member name="PathCombine(System.String,System.Char,System.String)">
+			<summary>
+				Safely combines path elements without danger of double including the separator character.
+			</summary>
+			<param name="path">
+				The left-hand portion.  Typically the directory.
+			</param>
+			<param name="pathSeparator">
+				The <see cref="T:System.Char"/> used to join to the two path elements.
+			</param>
+			<param name="name">
+				The right-hand portion.  Typically the file or resource name.
+			</param>
+			<returns>
+				The unified path as a <see cref="T:System.String"/>.
+			</returns>
+		</member>
+
+		<member name="WriteLine(System.String,System.Collections.Generic.IEnumerable{System.String})">
+			<summary>
+				Writes the supplied data to the specified file, one-per-line,
+				terminating each line with the environment's newline.
+				In Windows this is typically CRLF, whereas in Linux this is typically LF.
+			</summary>
+			<param name="filePathName">
+				A <see cref="T:System.String"/> specifying the path and name of the file.
+				This can be relative or absolute.
+			</param>
+			<param name="data">
+				An <see cref="T:System.Collections.Generic.IEnumerable{System.String}"/> of each line to write.
+			</param>
+			<remarks>
+				The file is accessed via <see cref="M:System.IO.FileMode.OpenOrCreate"/> semantics.
+				The caller must have <see cref="M:System.IO.FileAccess.Write"/> permission.
+			</remarks>
+		</member>
+		<member name="WriteLine(System.IO.Stream,System.Collections.Generic.IEnumerable{System.String})">
+			<summary>
+				Writes the supplied data to the specified file, one-per-line,
+				terminating each line with the environment's newline.
+				In Windows this is typically CRLF, whereas in Linux this is typically LF.
+			</summary>
+			<param name="stream">
+				The reference to the <see cref="T:System.IO.Stream"/> to use when writing the data.
+			</param>
+			<param name="data">
+				An <see cref="T:System.Collections.Generic.IEnumerable{System.String}"/> of each line to write.
+			</param>
+			<remarks>
+				The caller must have <see cref="M:System.IO.FileAccess.Write"/> permission.
+			</remarks>
+		</member>
+		<member name="WriteLine(System.IO.TextWriter,System.Collections.Generic.IEnumerable{System.String})">
+			<summary>
+				Writes the supplied data to the specified file, one-per-line,
+				terminating each line with the environment's newline.
+				In Windows this is typically CRLF, whereas in Linux this is typically LF.
+			</summary>
+			<param name="writer">
+				The reference to the <see cref="T:System.IO.TextWriter"/> to use when writing the data.
+			</param>
+			<param name="data">
+				An <see cref="T:System.Collections.Generic.IEnumerable{System.String}"/> of each line to write.
+			</param>
+			<remarks>
+				The caller must have <see cref="M:System.IO.FileAccess.Write"/> permission.
+			</remarks>
+		</member>
+
+		<member name="WriteLine(System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+			<summary>
+				Writes the supplied data to the specified file, one-per-line,
+				terminating each line with specified lineending.
+				Most internet protocols require a CRLF instead of simply an LF.
+			</summary>
+			<param name="filePathName">
+				A <see cref="T:System.String"/> specifying the path and name of the file.
+				This can be relative or absolute.
+			</param>
+			<param name="data">
+				An <see cref="T:System.Collections.Generic.IEnumerable{System.String}"/> of each line to write.
+			</param>
+			<param name="lineEnding">
+				The <see cref="T:System.String" /> specifying exactly which value to append to each line of data,
+				such as a CRLF pair.
+			</param>
+			<remarks>
+				The file is accessed via <see cref="M:System.IO.FileMode.OpenOrCreate"/> semantics.
+				The caller must have <see cref="M:System.IO.FileAccess.Write"/> permission.
+			</remarks>
+		</member>
+		<member name="WriteLine(System.IO.Stream,System.String,System.Collections.Generic.IEnumerable{System.String})">
+			<summary>
+				Writes the supplied data to the specified file, one-per-line,
+				terminating each line with specified lineending.
+				Most internet protocols require a CRLF instead of simply an LF.
+			</summary>
+			<param name="stream">
+				The reference to the <see cref="T:System.IO.Stream"/> to use when writing the data.
+			</param>
+			<param name="lineEnding">
+				The <see cref="T:System.String" /> specifying exactly which value to append to each line of data,
+				such as a CRLF pair.
+			</param>
+			<param name="data">
+				An <see cref="T:System.Collections.Generic.IEnumerable{System.String}"/> of each line to write.
+			</param>
+			<remarks>
+				The caller must have <see cref="M:System.IO.FileAccess.Write"/> permission.
+			</remarks>
+		</member>
+		<member name="WriteLine(System.IO.TextWriter,System.String,System.Collections.Generic.IEnumerable{System.String})">
+			<summary>
+				Writes the supplied data to the specified file, one-per-line,
+				terminating each line with specified lineending.
+				Most internet protocols require a CRLF instead of simply an LF.
+			</summary>
+			<param name="writer">
+				The reference to the <see cref="T:System.IO.TextWriter"/> to use when writing the data.
+			</param>
+			<param name="lineEnding">
+				The <see cref="T:System.String" /> specifying exactly which value to append to each line of data,
+				such as a CRLF pair.
+			</param>
+			<param name="data">
+				An <see cref="T:System.Collections.Generic.IEnumerable{System.String}"/> of each line to write.
+			</param>
+			<remarks>
+				The caller must have <see cref="M:System.IO.FileAccess.Write"/> permission.
+			</remarks>
+		</member>
+
+		<member name="ReadLine(System.String)">
+			<summary>
+				Reads from the specified file, returning a <see cref="T:System.String"/> one-per-line,
+				terminating at the system's newline.
+				On most Windows systems this is CRLF, and on most Linux systems it is simply LF.
+			</summary>
+			<param name="filePathName">
+				A <see cref="T:System.String"/> specifying the file's path and name.
+				This can be either absolute or relative.
+			</param>
+			<returns>
+				A <see cref="T:System.Collections.Generic.IEnumerable{System.String}"/>, one per each line read.
+			</returns>
+			<remarks>
+				The file is opened with <see cref="M:System.IO.FileMode.Open"/> semantics.
+				The caller must have <see cref="M:System.IO.FileAccess.Read"/> permission.
+			</remarks>
+		</member>
+		<member name="ReadLine(System.IO.Stream)">
+			<summary>
+				Reads from the specified file, returning a <see cref="T:System.String"/> one-per-line,
+				terminating at the system's newline.
+				On most Windows systems this is CRLF, and on most Linux systems it is simply LF.
+			</summary>
+			<param name="stream">
+				The reference to the <see cref="T:System.IO.Stream"/> to use when reading the data.
+			</param>
+			<returns>
+				A <see cref="T:System.Collections.Generic.IEnumerable{System.String}"/>, one per each line read.
+			</returns>
+			<remarks>
+				The caller must have <see cref="M:System.IO.FileAccess.Read"/> permission.
+			</remarks>
+		</member>
+		<member name="ReadLine(System.IO.TextReader)">
+			<summary>
+				Reads from the specified file, returning a <see cref="T:System.String"/> one-per-line,
+				terminating at the system's newline.
+				On most Windows systems this is CRLF, and on most Linux systems it is simply LF.
+			</summary>
+			<param name="reader">
+				The reference to the <see cref="T:System.IO.TextReader"/> to use when reading the data.
+			</param>
+			<returns>
+				A <see cref="T:System.Collections.Generic.IEnumerable{System.String}"/>, one per each line read.
+			</returns>
+			<remarks>
+				The caller must have <see cref="M:System.IO.FileAccess.Read"/> permission.
+			</remarks>
+		</member>
+
+		<member name="ReadLine(System.String,System.String)">
+			<summary>
+				Reads from the specified file, returning a <see cref="T:System.String"/> one-per-line,
+				terminating each line with specified line-ending.
+				Most internet protocols require a CRLF instead of simply an LF.
+			</summary>
+			<param name="filePathName">
+				A <see cref="T:System.String"/> specifying the file's path and name.
+				This can be either absolute or relative.
+			</param>
+			<param name="recordSeparator">
+				The <see cref="T:System.String" /> specifying exactly which value to use to break on each line of data,
+				such as a CRLF pair.
+			</param>
+			<returns>
+				A <see cref="T:System.Collections.Generic.IEnumerable{System.String}"/>, one per each line read.
+			</returns>
+			<remarks>
+				The file is opened with <see cref="M:System.IO.FileMode.Open"/> semantics.
+				The caller must have <see cref="M:System.IO.FileAccess.Read"/> permission.
+			</remarks>
+		</member>
+		<member name="ReadLine(System.IO.Stream,System.String)">
+			<summary>
+				Reads from the specified file, returning a <see cref="T:System.String"/> one-per-line,
+				terminating each line with specified line-ending.
+				Most internet protocols require a CRLF instead of simply an LF.
+			</summary>
+			<param name="stream">
+				The reference to the <see cref="T:System.IO.Stream"/> to use when reading the data.
+			</param>
+			<param name="recordSeparator">
+				The <see cref="T:System.String" /> specifying exactly which value to use to break on each line of data,
+				such as a CRLF pair.
+			</param>
+			<returns>
+				A <see cref="T:System.Collections.Generic.IEnumerable{System.String}"/>, one per each line read.
+			</returns>
+			<remarks>
+				The caller must have <see cref="M:System.IO.FileAccess.Read"/> permission.
+			</remarks>
+		</member>
+		<member name="ReadLine(System.IO.TextReader,System.String)">
+			<summary>
+				Reads from the specified file, returning a <see cref="T:System.String"/> one-per-line,
+				terminating each line with specified line-ending.
+				Most internet protocols require a CRLF instead of simply an LF.
+			</summary>
+			<param name="reader">
+				The reference to the <see cref="T:System.IO.TextReader"/> to use when reading the data.
+			</param>
+			<param name="recordSeparator">
+				The <see cref="T:System.String" /> specifying exactly which value to use to break on each line of data,
+				such as a CRLF pair.
+			</param>
+			<returns>
+				A <see cref="T:System.Collections.Generic.IEnumerable{System.String}"/>, one per each line read.
+			</returns>
+			<remarks>
+				The caller must have <see cref="M:System.IO.FileAccess.Read"/> permission.
+			</remarks>
+		</member>
+
+		<member name="ReadLine(System.String,System.String,System.Char)">
+			<summary>
+				Reads from the specified file, returning a <see cref="T:System.String"/> one-per-line,
+				terminating each line with specified line-ending.
+				Most internet protocols require a CRLF instead of simply an LF.
+				The specified <paramref name="quoteChar"/> is used to escape lines which include
+				the line-ending in their value.
+			</summary>
+			<param name="filePathName">
+				A <see cref="T:System.String"/> specifying the file's path and name.
+				This can be either absolute or relative.
+			</param>
+			<param name="recordSeparator">
+				The <see cref="T:System.String" /> specifying exactly which value to use to break on each line of data,
+				such as a CRLF pair.
+			</param>
+			<param name="quoteChar">
+				The <see cred="T:System.Char"/> used to enquote any records which containt the line-ending as part of their value.
+				For example, this would be the double-quote character to escape a CRLF pair in a standard CSV file.
+			</param>
+			<returns>
+				A <see cref="T:System.Collections.Generic.IEnumerable{System.String}"/>, one per each line read.
+			</returns>
+			<remarks>
+				The file is opened with <see cref="M:System.IO.FileMode.Open"/> semantics.
+				The caller must have <see cref="M:System.IO.FileAccess.Read"/> permission.
+			</remarks>
+		</member>
+		<member name="ReadLine(System.IO.Stream,System.String,System.Char)">
+			<summary>
+				Reads from the specified file, returning a <see cref="T:System.String"/> one-per-line,
+				terminating each line with specified line-ending.
+				Most internet protocols require a CRLF instead of simply an LF.
+				The specified <paramref name="quoteChar"/> is used to escape lines which include
+				the line-ending in their value.
+			</summary>
+			<param name="stream">
+				The reference to the <see cref="T:System.IO.Stream"/> to use when reading the data.
+			</param>
+			<param name="recordSeparator">
+				The <see cref="T:System.String" /> specifying exactly which value to use to break on each line of data,
+				such as a CRLF pair.
+			</param>
+			<param name="quoteChar">
+				The <see cred="T:System.Char"/> used to enquote any records which containt the line-ending as part of their value.
+				For example, this would be the double-quote character to escape a CRLF pair in a standard CSV file.
+			</param>
+			<returns>
+				A <see cref="T:System.Collections.Generic.IEnumerable{System.String}"/>, one per each line read.
+			</returns>
+			<remarks>
+				The caller must have <see cref="M:System.IO.FileAccess.Read"/> permission.
+			</remarks>
+		</member>
+		<member name="ReadLine(System.IO.TextReader,System.String,System.Char)">
+			<summary>
+				Reads from the specified file, returning a <see cref="T:System.String"/> one-per-line,
+				terminating each line with specified line-ending.
+				Most internet protocols require a CRLF instead of simply an LF.
+				The specified <paramref name="quoteChar"/> is used to escape lines which include
+				the line-ending in their value.
+			</summary>
+			<param name="reader">
+				The reference to the <see cref="T:System.IO.TextReader"/> to use when reading the data.
+			</param>
+			<param name="recordSeparator">
+				The <see cref="T:System.String" /> specifying exactly which value to use to break on each line of data,
+				such as a CRLF pair.
+			</param>
+			<param name="quoteChar">
+				The <see cred="T:System.Char"/> used to enquote any records which containt the line-ending as part of their value.
+				For example, this would be the double-quote character to escape a CRLF pair in a standard CSV file.
+			</param>
+			<returns>
+				A <see cref="T:System.Collections.Generic.IEnumerable{System.String}"/>, one per each line read.
+			</returns>
+			<remarks>
+				The caller must have <see cref="M:System.IO.FileAccess.Read"/> permission.
+			</remarks>
+		</member>
+
+		<member name="ReadRecord(System.String,System.String,System.Char,System.Char)">
+			<summary>
+				Reads from the specified file, returning a <see cref="T:System.String"/> one-per-line,
+				terminating each line with specified line-ending.
+				Most internet protocols require a CRLF instead of simply an LF.
+				The specified <paramref name="quoteChar"/> is used to escape lines which include
+				the line-ending in their value.
+			</summary>
+			<param name="filePathName">
+				A <see cref="T:System.String"/> specifying the file's path and name.
+				This can be either absolute or relative.
+			</param>
+			<param name="recordSeparator">
+				The <see cref="T:System.String" /> specifying exactly which value to use to break on each line of data,
+				such as a CRLF pair.
+			</param>
+			<param name="quoteChar">
+				The <see cred="T:System.Char"/> used to enquote any records which containt the line-ending as part of their value.
+				For example, this would be the double-quote character to escape a CRLF pair in a standard CSV file.
+			</param>
+			<param name="fieldSeparator">
+				The <see cred="T:System.Char"/> used to separate .
+				For example, this would be the double-quote character to escape a CRLF pair in a standard CSV file.
+			</param>
+			<returns>
+				A <see cref="T:System.Collections.Generic.IEnumerable{System.Collections.Generic.IEnumerable{System.String}}"/>,
+				presenting the data in tabular form.
+			</returns>
+			<remarks>
+				The file is opened with <see cref="M:System.IO.FileMode.Open"/> semantics.
+				The caller must have <see cref="M:System.IO.FileAccess.Read"/> permission.
+			</remarks>
+		</member>
+		<member name="ReadRecord(System.IO.Stream,System.String,System.Char,System.Char)">
+			<summary>
+				Reads from the specified file, returning a <see cref="T:System.String"/> one-per-line,
+				terminating each line with specified line-ending.
+				Most internet protocols require a CRLF instead of simply an LF.
+				The specified <paramref name="quoteChar"/> is used to escape lines which include
+				the line-ending in their value.
+			</summary>
+			<param name="stream">
+				The reference to the <see cref="T:System.IO.Stream"/> to use when reading the data.
+			</param>
+			<param name="recordSeparator">
+				The <see cref="T:System.String" /> specifying exactly which value to use to break on each line of data,
+				such as a CRLF pair.
+			</param>
+			<param name="quoteChar">
+				The <see cred="T:System.Char"/> used to enquote any records which containt the line-ending as part of their value.
+				For example, this would be the double-quote character to escape a CRLF pair in a standard CSV file.
+			</param>
+			<param name="fieldSeparator">
+				The <see cred="T:System.Char"/> used to separate .
+				For example, this would be the double-quote character to escape a CRLF pair in a standard CSV file.
+			</param>
+			<returns>
+				A <see cref="T:System.Collections.Generic.IEnumerable{System.Collections.Generic.IEnumerable{System.String}}"/>,
+				presenting the data in tabular form.
+			</returns>
+			<remarks>
+				The caller must have <see cref="M:System.IO.FileAccess.Read"/> permission.
+			</remarks>
+		</member>
+		<member name="ReadRecord(System.IO.TextReader,System.String,System.Char,System.Char)">
+			<summary>
+				Reads from the specified file, returning a <see cref="T:System.String"/> one-per-line,
+				terminating each line with specified line-ending.
+				Most internet protocols require a CRLF instead of simply an LF.
+				The specified <paramref name="quoteChar"/> is used to escape lines which include
+				the line-ending in their value.
+			</summary>
+			<param name="reader">
+				The reference to the <see cref="T:System.IO.TextReader"/> to use when reading the data.
+			</param>
+			<param name="recordSeparator">
+				The <see cref="T:System.String" /> specifying exactly which value to use to break on each line of data,
+				such as a CRLF pair.
+			</param>
+			<param name="quoteChar">
+				The <see cred="T:System.Char"/> used to enquote any records which containt the line-ending as part of their value.
+				For example, this would be the double-quote character to escape a CRLF pair in a standard CSV file.
+			</param>
+			<param name="fieldSeparator">
+				The <see cred="T:System.Char"/> used to separate .
+				For example, this would be the double-quote character to escape a CRLF pair in a standard CSV file.
+			</param>
+			<returns>
+				A <see cref="T:System.Collections.Generic.IEnumerable{System.Collections.Generic.IEnumerable{System.String}}"/>, 
+				presenting the data in tabular form.
+			</returns>
+			<remarks>
+				The caller must have <see cref="M:System.IO.FileAccess.Read"/> permission.
+			</remarks>
+		</member>
+
+		<member name="ReadColumn(System.String,System.Char,System.Char)">
+			<summary>
+				Reads the columns of a record from the specified record.
+			</summary>
+			<param name="record">
+				A <see cref="T:System.String"/> containing the record to be read.
+			</param>
+			<param name="quoteChar">
+				The <see cred="T:System.Char"/> used to enquote any records which containt the line-ending as part of their value.
+				For example, this would be the double-quote character to escape a CRLF pair in a standard CSV file.
+			</param>
+			<param name="fieldSeparator">
+				The <see cred="T:System.Char"/> used to separate .
+				For example, this would be the double-quote character to escape a CRLF pair in a standard CSV file.
+			</param>
+			<returns>
+				A <see cref="T:System.Collections.Generic.IEnumerable{System.String}"/> of the record's fields.
+			</returns>
+		</member>
+		<member name="ReadColumn(System.IO.TextReader,System.Char,System.Char)">
+			<summary>
+				Reads the columns of a record from the specified reader.
+			</summary>
+			<param name="reader">
+				The reference to the <see cref="T:System.IO.TextReader"/> for streaming the record.
+			</param>
+			<param name="quoteChar">
+				The <see cred="T:System.Char"/> used to enquote any records which containt the line-ending as part of their value.
+				For example, this would be the double-quote character to escape a CRLF pair in a standard CSV file.
+			</param>
+			<param name="fieldSeparator">
+				The <see cred="T:System.Char"/> used to separate .
+				For example, this would be the double-quote character to escape a CRLF pair in a standard CSV file.
+			</param>
+			<returns>
+				A <see cref="T:System.Collections.Generic.IEnumerable{System.String}"/> of the record's fields.
+			</returns>
+		</member>
+	</type>
+</types>
