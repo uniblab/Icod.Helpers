@@ -20,10 +20,16 @@
 
 namespace Icod.Helpers {
 
+	/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="CodePageHelper"]/member[@name=""]/*'/>
+	/// [System.Xml.Serialization.XmlType( IncludeInSchema = false )]
+	[Icod.LgplLicense]
+	[Icod.Author( "Timothy J. Bruce" )]
+	[Icod.ReportBugsTo( "uniblab@hotmail.com" )]
 	public static class CodePageHelper {
 
-		public static System.Text.Encoding? GetCodePage( System.String codePage ) {
-			System.Text.Encoding? output = null;
+		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="CodePageHelper"]/member[@name="GetCodePage"]/*'/>
+		public static System.Text.Encoding GetCodePage( System.String codePage ) {
+			System.Text.Encoding output = null;
 
 			if ( System.Int32.TryParse( codePage, out var cpNumber ) ) {
 				output = System.Text.Encoding.GetEncoding( cpNumber );
