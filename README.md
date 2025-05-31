@@ -54,13 +54,13 @@ One can specify a line-ending via the `recordSeparator` parameter.
 
 Examples:
 ``` csharp
-System.Func<System.String?, System.Collections.Generic.IEnumerable<System.String>> reader;
+System.Func<System.String, System.Collections.Generic.IEnumerable<System.String>> reader;
 if ( System.String.IsNullOrEmpty( inputPathName ) ) {
 	// no file specified, read from StdIn instead
 	reader = ( x ) => System.Console.In.ReadLine( System.Environment.NewLine );
 } else {
 	// read from specified file
-	reader = ( x ) => x!.ReadLine();
+	reader = ( x ) => x.ReadLine();
 }
 
 foreach ( var line in reader( inputPathName ) ) {
@@ -78,22 +78,22 @@ accepting a list of lines to write.
 
 Example:
 ``` csharp
-System.Func<System.String?, System.Collections.Generic.IEnumerable<System.String>> reader;
+System.Func<System.String, System.Collections.Generic.IEnumerable<System.String>> reader;
 if ( System.String.IsNullOrEmpty( inputPathName ) ) {
 	// no file specified, read from StdIn instead
 	reader = ( x ) => System.Console.In.ReadLine( System.Environment.NewLine );
 } else {
 	// read from specified file
-	reader = ( x ) => x!.ReadLine();
+	reader = ( x ) => x.ReadLine();
 }
 
-System.Action<System.String?, System.Collections.Generic.IEnumerable<System.String>> writer;
+System.Action<System.String, System.Collections.Generic.IEnumerable<System.String>> writer;
 if ( System.String.IsNullOrEmpty( outputPathName ) ) {
 	// no file specified, write to StdOut instead
 	writer = ( x, y ) => System.Console.Out.WriteLine( lineEnding: System.Environment.NewLine, data: y );
 } else {
 	// write to specified file
-	writer = ( x, y ) => x!.WriteLine( y );
+	writer = ( x, y ) => x.WriteLine( y );
 }
 
 writer( outputPathName, reader( inputPathName ).Select(

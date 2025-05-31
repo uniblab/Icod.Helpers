@@ -28,7 +28,11 @@ namespace Icod.Helpers {
 	public static class StringHelper {
 
 		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="StringHelper"]/member[@name="TrimToNull(System.String)"]/*'/>
+#if NET5_0_OR_GREATER || NETCOREAPP3_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+		public static System.String? TrimToNull( this System.String? @string ) {
+#else
 		public static System.String TrimToNull( this System.String @string ) {
+#endif
 			if ( System.String.IsNullOrEmpty( @string ) ) {
 				return null;
 			}
@@ -110,14 +114,18 @@ namespace Icod.Helpers {
 
 		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="StringHelper"]/member[@name="GetWebString(System.Byte[],System.Text.Encoding,System.String)"]/*'/>
 		public static System.String GetWebString(
+#if NET5_0_OR_GREATER || NETCOREAPP3_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+			this System.Byte[] response, System.Text.Encoding encoding, System.String? contentEncoding
+#else
 			this System.Byte[] response, System.Text.Encoding encoding, System.String contentEncoding
+#endif
 		) {
-			System.String ce = ( contentEncoding.TrimToNull() ?? "identity" );
-			return ( ce ).Equals( "identity", System.StringComparison.OrdinalIgnoreCase )
+			System.String ce = ( contentEncoding.TrimToNull() ?? "identity" ).ToLower();
+			return ( ce ).Equals( "identity", System.StringComparison.Ordinal )
 				? response.GetString( encoding )
-				: ce.Equals( "gzip", System.StringComparison.OrdinalIgnoreCase )
+				: ce.Equals( "gzip", System.StringComparison.Ordinal )
 					? response.Gunzip( encoding )
-					: ce.Equals( "deflate", System.StringComparison.OrdinalIgnoreCase )
+					: ce.Equals( "deflate", System.StringComparison.Ordinal )
 						? response.Inflate( encoding )
 						: throw new System.InvalidOperationException( System.String.Format(
 							"Unknown Content-Encoding value received from server: {0}",
