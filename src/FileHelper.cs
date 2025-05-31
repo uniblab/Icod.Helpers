@@ -40,14 +40,9 @@ namespace Icod.Helpers {
 		#region methods
 		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="FileHelper"]/member[@name="PathCombine(System.String,System.Char,System.String)"]/*'/>
 		public static System.String PathCombine( System.String path, System.Char pathSeparator, System.String name ) {
-			var n = name.TrimToNull();
-			if ( System.String.IsNullOrEmpty( n ) ) {
-				throw new System.ArgumentNullException( nameof( name ) );
-			}
-			var p = path.TrimToNull();
-			if ( System.String.IsNullOrEmpty( p ) ) {
-				throw new System.ArgumentNullException( nameof( path ) );
-			}
+			var n = name.TrimToNull() ?? throw new System.ArgumentNullException( nameof( name ) );
+			var p = path.TrimToNull() ?? throw new System.ArgumentNullException( nameof( path ) );
+
 			var sep = pathSeparator.ToString();
 			while ( p.EndsWith( sep ) ) {
 #if NET5_0_OR_GREATER || NETCOREAPP3_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
@@ -217,10 +212,8 @@ namespace Icod.Helpers {
 			if ( EOF == reader.Peek() ) {
 				yield break;
 			}
-			var rs = recordSeparator.TrimToNull();
-			if ( System.String.IsNullOrEmpty( rs ) ) {
-				throw new System.ArgumentNullException( nameof( recordSeparator ) );
-			} else if ( ( 1 == rs.Length ) && rs.Equals( quoteChar.ToString() ) ) {
+			var rs = recordSeparator.TrimToNull() ?? throw new System.ArgumentNullException( nameof( recordSeparator ) );
+			if ( ( 1 == rs.Length ) && rs.Equals( quoteChar.ToString() ) ) {
 				throw new System.InvalidOperationException( "Quote character and record separator cannot be the same." );
 			}
 
@@ -292,10 +285,7 @@ namespace Icod.Helpers {
 		public static System.Collections.Generic.IEnumerable<System.Collections.Generic.IEnumerable<System.String>> ReadRecord(
 			this System.IO.TextReader reader, System.String recordSeparator, System.Char quoteChar, System.Char fieldSeparator
 		) {
-			var rs = recordSeparator.TrimToNull();
-			if ( System.String.IsNullOrEmpty( rs ) ) {
-				throw new System.ArgumentNullException( nameof( recordSeparator ) );
-			}
+			var rs = recordSeparator.TrimToNull() ?? throw new System.ArgumentNullException( nameof( recordSeparator ) );
 
 			foreach ( var line in reader.ReadLine( recordSeparator, quoteChar ).Where(
 				x => null != x

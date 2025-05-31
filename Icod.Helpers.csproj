@@ -37,7 +37,7 @@
 		<RepositoryType>git</RepositoryType>
 		<PackageProjectUrl>https://github.com/uniblab/Icod.Helpers</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/uniblab/Icod.Helpers</RepositoryUrl>
-		<PackageTags>library, util, text, stream, file, text stream, text-stream, text file, text-file, string, code page, code-page</PackageTags>
+		<PackageTags>library, util, text, stream, file, text stream, text-stream, text file, text-file, string, code page, code-page, record parsing, csv record, csv parsing</PackageTags>
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 		<OutputType>Library</OutputType>
 		<StartupObject />
@@ -64,6 +64,31 @@
 		<IncludeContentInPack>true</IncludeContentInPack>
 		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<Nullable Condition=" '$(Configuration)' == 'Debug' ">enable</Nullable>
+	</PropertyGroup>
+	<PropertyGroup>
+		<Nullable>disable</Nullable>
+	</PropertyGroup>
+	<PropertyGroup>
+		<Nullable Condition=" '$(TargetFramework)' == 'netstandard2.1' ">enable</Nullable>
+	</PropertyGroup>
+	<PropertyGroup>
+		<Nullable Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">enable</Nullable>
+	</PropertyGroup>
+	<PropertyGroup>
+		<Nullable Condition=" '$(TargetFramework)' == 'net5.0' ">enable</Nullable>
+	</PropertyGroup>
+	<PropertyGroup>
+		<Nullable Condition=" '$(TargetFramework)' == 'net6.0' ">enable</Nullable>
+	</PropertyGroup>
+	<PropertyGroup>
+		<Nullable Condition=" '$(TargetFramework)' == 'net7.0' ">enable</Nullable>
+	</PropertyGroup>
+	<PropertyGroup>
+		<Nullable Condition=" '$(TargetFramework)' == 'net8.0' ">enable</Nullable>
+	</PropertyGroup>
+	<PropertyGroup>
+		<Nullable Condition=" '$(TargetFramework)' == 'net9.0' ">enable</Nullable>
 	</PropertyGroup>
 
 	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
