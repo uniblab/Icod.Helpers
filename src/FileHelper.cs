@@ -1,5 +1,18 @@
 ﻿// Icod.Helpers.dll is the Icod.Helpers utility .Net assembly.
 // Copyright (C) 2025  Timothy J. Bruce
+/*
+	The FileHelper file contains helper methods for reading and
+	writing to "record-based" based text files, such as CSV.
+	The top-level features expose the content as an enumeration
+	of an enumeration of strings, with the outer enumeration 
+	the rows and the inner enumeration the columns of that row.
+	This will properly read from character-delimited files, 
+	such as comma (,), with arbitrary record separators, such
+	as CRLF or simply LF or even SEP or any other multicharacter
+	string.
+	It properly supports enquoting of cells which may contain 
+	either the field separator or the record separator.
+*/
 
 /*
     This library is free software; you can redistribute it and/or
