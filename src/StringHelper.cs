@@ -42,7 +42,12 @@ namespace Icod.Helpers {
 			}
 			return @string;
 		}
+		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="StringHelper"]/member[@name="GetString(System.String,System.Text.Encoding)"]/*'/>
+		public static System.String GetString( this System.Byte[] response, System.Text.Encoding encoding ) {
+			return encoding.GetString( response );
+		}
 
+		#region compress
 		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="StringHelper"]/member[@name="Compress(System.String,System.Text.Encoding,System.Func{System.IO.Stream,System.IO.Compression.CompressionMode,System.Boolean,System.IO.Stream})"]/*'/>
 		public static System.Byte[] Compress(
 			this System.String @string,
@@ -74,12 +79,9 @@ namespace Icod.Helpers {
 				( stream, compressionMode, leaveOpen ) => new System.IO.Compression.DeflateStream( stream, compressionMode, leaveOpen )
 			);
 		}
+		#endregion compress
 
-		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="StringHelper"]/member[@name="GetString(System.String,System.Text.Encoding)"]/*'/>
-		public static System.String GetString( this System.Byte[] response, System.Text.Encoding encoding ) {
-			return encoding.GetString( response );
-		}
-
+		#region decompress
 		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="StringHelper"]/member[@name="Decompress(System.Byte[],System.Text.Encoding,System.Func{System.IO.Stream,System.IO.Compression.CompressionMode,System.Boolean,System.IO.Stream})"]/*'/>
 		public static System.String Decompress(
 			this System.Byte[] response,
@@ -111,6 +113,7 @@ namespace Icod.Helpers {
 				( stream, compressionMode, leaveOpen ) => new System.IO.Compression.DeflateStream( stream, compressionMode, leaveOpen )
 			);
 		}
+		#endregion decompress
 
 		/// <include file='..\doc\Icod.Helpers.xml' path='types/type[@name="StringHelper"]/member[@name="GetWebString(System.Byte[],System.Text.Encoding,System.String)"]/*'/>
 		public static System.String GetWebString(

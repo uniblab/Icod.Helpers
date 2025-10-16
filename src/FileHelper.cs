@@ -1,5 +1,18 @@
 ﻿// Icod.Helpers.dll is the Icod.Helpers utility .Net assembly.
 // Copyright (C) 2025  Timothy J. Bruce
+/*
+	The FileHelper file contains helper methods for reading and
+	writing to "record-based" based text files, such as CSV.
+	The top-level features expose the content as an enumeration
+	of an enumeration of strings, with the outer enumeration 
+	the rows and the inner enumeration the columns of that row.
+	This will properly read from character-delimited files, 
+	such as comma (,), with arbitrary record separators, such
+	as CRLF or simply LF or even SEP or any other multicharacter
+	string.
+	It properly supports enquoting of cells which may contain 
+	either the field separator or the record separator.
+*/
 
 /*
     This library is free software; you can redistribute it and/or
@@ -30,8 +43,7 @@ namespace Icod.Helpers {
 	public static class FileHelper {
 
 		#region fields
-		private const System.Int32 EOL = -1;
-		private const System.Int32 EOF = EOL;
+		private const System.Int32 EOF = -1;
 
 		private const System.Int32 theBufferSize = 16384;
 		#endregion fields
@@ -168,7 +180,7 @@ namespace Icod.Helpers {
 			System.Int32 c;
 			do {
 				c = reader.Read();
-				if ( EOL == c ) {
+				if ( EOF == c ) {
 					yield return output.ToString();
 					yield break;
 				}
@@ -224,7 +236,7 @@ namespace Icod.Helpers {
 			System.Char c;
 			System.Boolean isPlaintext = true;
 			System.Int32 p = reader.Read();
-			while ( EOL != p ) {
+			while ( EOF != p ) {
 				c = System.Convert.ToChar( p );
 				output = output.Append( c );
 				if ( isPlaintext ) {
@@ -245,7 +257,7 @@ namespace Icod.Helpers {
 				} else {
 					if ( quoteChar.Equals( c ) ) {
 						p = reader.Peek();
-						if ( EOL == p ) {
+						if ( EOF == p ) {
 							throw new System.IO.EndOfStreamException();
 						}
 						c = System.Convert.ToChar( p );
@@ -314,7 +326,7 @@ namespace Icod.Helpers {
 			System.String column;
 			do {
 				i = reader.Peek();
-				if ( EOL == i ) {
+				if ( EOF == i ) {
 					break;
 				}
 				c = System.Convert.ToChar( i );
@@ -347,14 +359,14 @@ namespace Icod.Helpers {
 			this System.IO.TextReader reader, System.Char @break, System.Boolean readNextOnBreak
 		) {
 			var p = reader.Peek();
-			if ( EOL == p ) {
+			if ( EOF == p ) {
 				return null;
 			}
 			var c = System.Convert.ToChar( reader.Read() );
 			if ( @break.Equals( c ) ) {
 				if ( readNextOnBreak ) {
 					p = reader.Peek();
-					if ( EOL == p ) {
+					if ( EOF == p ) {
 						return null;
 					} else if ( @break.Equals( System.Convert.ToChar( p ) ) ) {
 						return System.Convert.ToChar( reader.Read() );
