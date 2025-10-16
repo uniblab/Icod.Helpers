@@ -177,11 +177,12 @@ var output = compressedd.Gunzip( codePage );
 
 #### Web helper
 There is also an extension method for working with web-based retrieval.  
-Quite often the content of a web response will be compressed.  Based on 
-the "Content-Encoding" header value, the `Byte[]`, the content, will be
-decoded as a `String`, or decompressed first and then returned.
+Quite often the content of a web response will be compressed.  Based on
+the Encoding and Content-Encoding values the helper will decompress, if
+necessary, and then convert the `System.Byte` to the correct 
+`System.String`.
 
-If the contentEncoding" parameter value is null, the function assumes 
+If the Content-Encoding value is null, the function assumes 
 "identity" encoding.
 
 Example:
