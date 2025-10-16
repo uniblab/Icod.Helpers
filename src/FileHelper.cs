@@ -30,8 +30,7 @@ namespace Icod.Helpers {
 	public static class FileHelper {
 
 		#region fields
-		private const System.Int32 EOL = -1;
-		private const System.Int32 EOF = EOL;
+		private const System.Int32 EOF = -1;
 
 		private const System.Int32 theBufferSize = 16384;
 		#endregion fields
@@ -168,7 +167,7 @@ namespace Icod.Helpers {
 			System.Int32 c;
 			do {
 				c = reader.Read();
-				if ( EOL == c ) {
+				if ( EOF == c ) {
 					yield return output.ToString();
 					yield break;
 				}
@@ -224,7 +223,7 @@ namespace Icod.Helpers {
 			System.Char c;
 			System.Boolean isPlaintext = true;
 			System.Int32 p = reader.Read();
-			while ( EOL != p ) {
+			while ( EOF != p ) {
 				c = System.Convert.ToChar( p );
 				output = output.Append( c );
 				if ( isPlaintext ) {
@@ -245,7 +244,7 @@ namespace Icod.Helpers {
 				} else {
 					if ( quoteChar.Equals( c ) ) {
 						p = reader.Peek();
-						if ( EOL == p ) {
+						if ( EOF == p ) {
 							throw new System.IO.EndOfStreamException();
 						}
 						c = System.Convert.ToChar( p );
@@ -314,7 +313,7 @@ namespace Icod.Helpers {
 			System.String column;
 			do {
 				i = reader.Peek();
-				if ( EOL == i ) {
+				if ( EOF == i ) {
 					break;
 				}
 				c = System.Convert.ToChar( i );
@@ -347,14 +346,14 @@ namespace Icod.Helpers {
 			this System.IO.TextReader reader, System.Char @break, System.Boolean readNextOnBreak
 		) {
 			var p = reader.Peek();
-			if ( EOL == p ) {
+			if ( EOF == p ) {
 				return null;
 			}
 			var c = System.Convert.ToChar( reader.Read() );
 			if ( @break.Equals( c ) ) {
 				if ( readNextOnBreak ) {
 					p = reader.Peek();
-					if ( EOL == p ) {
+					if ( EOF == p ) {
 						return null;
 					} else if ( @break.Equals( System.Convert.ToChar( p ) ) ) {
 						return System.Convert.ToChar( reader.Read() );
